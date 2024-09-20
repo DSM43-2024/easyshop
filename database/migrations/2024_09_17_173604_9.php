@@ -11,7 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('ingreso',function(Blueprint $table){
+            $table->bigIncrements('id_ingreso');
+            $table->foreignId('id_proveedor');
+            $table->foreignId('id_usuario');
+            $table->string('tipo_comprobante');
+            $table->double('serie_comprobante');
+            $table->double('num_comprobante');
+            $table->dateTime('fecha');
+            $table->decimal('impuesto');
+            $table->decimal('total');
+            $table->boolean('estado');
+            $table->timestamps();
+        });
     }
 
     /**
