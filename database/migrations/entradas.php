@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rol',function(Blueprint $table){
-            $table->bigIncrements('id_rol');
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->boolean('estado');
+        Schema::create('entradas',function(Blueprint $table){
+            $table->bigIncrements('id_entrada');
+            $table->string('id_producto');
+            $table->string('id_proveedor');
             $table->timestamps();
         });
     }

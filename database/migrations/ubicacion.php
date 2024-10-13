@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categoria',function(Blueprint $table){
-            $table->bigIncrements('id_categoria');
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->boolean('estado');
+        Schema::create('ubicacion',function(Blueprint $table){
+            $table->bigIncrements('id_ubicacion');
+            $table->string('estante');
+            $table->decimal('pasillo');
             $table->timestamps();
         });
     }

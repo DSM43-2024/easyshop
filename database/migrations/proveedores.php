@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articulo',function(Blueprint $table){
-            $table->bigIncrements('id_detalle_venta');
-            $table->foreignId('id_venta');
-            $table->foreignId('id_articulo');
-            $table->double('cantidad');
-            $table->decimal('precio');
-            $table->decimal('descuento');
+        Schema::create('proveedores',function(Blueprint $table){
+            $table->bigIncrements('id_proveedor');
+            $table->string('nombre');
+            $table->string('email');
             $table->timestamps();
         });
     }

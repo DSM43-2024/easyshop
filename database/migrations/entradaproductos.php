@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('persona',function(Blueprint $table){
-            $table->bigIncrements('id_persona');
-            $table->string('tipo_presona');
-            $table->string('tipo_documento');
-            $table->double('num_documento');
-            $table->string('direccion');
-            $table->double('telefono');
-            $table->string('email');
+        Schema::create('entrada_productos',function(Blueprint $table){
+            $table->bigIncrements('id_entrada_producto');
+            $table->string('id_entrada');
+            $table->string('id_producto');
+            $table->date('fecha');
             $table->timestamps();
         });
-        }
+    }
 
     /**
      * Reverse the migrations.
