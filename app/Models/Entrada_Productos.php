@@ -15,4 +15,11 @@ class Entrada_Productos extends Model
         'id_producto',
         'fecha'
     ];
+    public function entrada()
+    {
+        return $this->belongsTo(Entradas::class,'id_entrada');
+    }
+    public function productos(){
+        return $this->belongsTo(Productos::class,'id_producto');
+    }
 }

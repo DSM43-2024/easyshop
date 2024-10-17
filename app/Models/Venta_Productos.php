@@ -15,4 +15,10 @@ class Venta_Productos extends Model
         'id_producto',
         'fecha'
     ];
+    public function ventas(){
+        return $this->belongsTo(Ventas::class,'id_venta');
+    }
+    public function productos(){
+        return $this->belongsTo(Productos::class,'id_producto');
+    }
 }
