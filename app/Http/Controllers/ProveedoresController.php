@@ -7,13 +7,11 @@ use App\Models\Proveedores;
 
 class ProveedoresController extends Controller
 {
-    public function index(){
+    public function proveedores(){
         return view('proveedores')->with(['proveedores' => Proveedores::all()]);
     }
 
-    public function crear() {
-        return view("proveedores_crear");
-    }
+
 
     public function registrar(Request $request){
         $this->validate($request, [

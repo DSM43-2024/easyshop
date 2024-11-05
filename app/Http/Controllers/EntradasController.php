@@ -7,51 +7,46 @@ use App\Models\Entradas;
 
 class EntradasController extends Controller
 {
-    public function descuentos(){
-        return view('descuentos')
-        ->with(['descuentos'=> Entradas::all()]);
+    public function entradas(){
+        return view('entradas')
+        ->with(['entradas'=> Entradas::all()]);
     }
 
-    public function descuento_alta()  {
-        return view("descuento_alta");
+    public function entrada_alta()  {
+        return view("entrada_alta");
     }
 
-    public function descuento_registrar(Request $request){
+    public function entrada_registrar(Request $request){
         $this->validate($request, [
-            'clave' => 'required',
-            'nombre' => 'required',
-            'detalle' => 'required',
-            'activo' => 'required'
+            'id_proveedor' => 'required',
+            'id_producto' => 'required'
         ]);
 
         $entrada = new Entradas();
-        $entrada->id_producto = $request->input('id_producto');
-        $descuento->nombre = $request->input('nombre');
-        $descuento->detalle = $request->input('detalle');
-        $descuento->activo = $request->input('activo');
-        $descuento->save();
+        $entrada->id_entrada = $request->input('id_producto');
+        $entrada->id_producto = $request->input('nombre');
+        $entrada->id_proveedor = $request->input('detalle');
+        $entrada->save();
 
         return redirect()->route('descuentos')->with('success', 'Registrado exitosamente');
     }
 
-    public function descuento_detalle($id){
+    public function entrada_detalle($id){
         $query = Entradas::find($id);
-        return view("descuento_detalle")
-        ->with(['descuento' => $query]);
-    }
-
-    public function descuento_editar($id){
-        $query = Entradas::find($id);
-        return view('descuento_editar')
+        return view("entrada_detalle")
         ->with(['entrada' => $query]);
     }
 
-    public function descuento_salvar(Entradas $id, Request $request) {
+    public function entrada_editar($id){
+        $query = Entradas::find($id);
+        return view('entrada_editar')
+        ->with(['entrada' => $query]);
+    }
+
+    public function entrada_salvar(Entradas $id, Request $request) {
         $query = Entradas::find($id->id_entrada);
-        $query->clave = $request->clave;
-        $query->nombre = $request->nombre;    
-        $query->detalle = $request->detalle;    
-        $query->activo = $request->activo;    
+        $query->id_producto = $request->clave;
+        $query->id_proveedor = $request->nombre;    
         $query->save();
 
         return redirect()->route("entrada_editar", ['id' => $id->id_entrada]);
