@@ -18,16 +18,14 @@ class DescuentosController extends Controller
 
     public function descuento_registrar(Request $request){
         $this->validate($request, [
-            'clave' => 'required',
             'nombre' => 'required',
-            'detalle' => 'required',
+            'cantidad' => 'required',
             'activo' => 'required'
         ]);
 
         $descuento = new Descuentos();
-        $descuento->clave = $request->input('clave');
         $descuento->nombre = $request->input('nombre');
-        $descuento->detalle = $request->input('detalle');
+        $descuento->cantidad = $request->input('cantidad');
         $descuento->activo = $request->input('activo');
         $descuento->save();
 
@@ -48,9 +46,7 @@ class DescuentosController extends Controller
 
     public function descuento_salvar(Descuentos $id, Request $request) {
         $query = Descuentos::find($id->id_descuento);
-        $query->clave = $request->clave;
         $query->nombre = $request->nombre;    
-        $query->detalle = $request->detalle;    
         $query->activo = $request->activo;    
         $query->save();
 

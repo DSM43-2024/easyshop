@@ -12,7 +12,6 @@ class Descuentos extends Model
     protected $primaryKey='id_descuento';
     protected $fillable=[
         'nombre',
-        'descuento',
         'cantidad',
         'activo'
     ];

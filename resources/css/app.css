@@ -1,0 +1,14 @@
+body{
+    background-color: black;
+    color: aliceblue;
+    align-items: center;
+}
+.table{
+    background-color: aliceblue;
+    color: black;
+}
+.form-floating ,.mb-3{
+    color: aliceblue;
+    border-radius: 5 px;
+
+}

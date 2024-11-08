@@ -13,7 +13,7 @@ class ProveedoresController extends Controller
 
 
 
-    public function registrar(Request $request){
+    public function proveedor_registrar(Request $request){
         $this->validate($request, [
             'nombre' => 'required',
             'email' => 'required|email',
@@ -36,7 +36,9 @@ class ProveedoresController extends Controller
         $proveedor = Proveedores::find($id);
         return view('proveedores_editar')->with(['proveedor' => $proveedor]);
     }
-
+    public function proveedor_alta()  {
+        return view("proveedor_alta");
+    }
     public function salvar(Request $request, $id) {
         $this->validate($request, [
             'nombre' => 'required',
