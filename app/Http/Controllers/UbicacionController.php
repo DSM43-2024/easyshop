@@ -9,7 +9,7 @@ class UbicacionController extends Controller
 {
     public function ubicacion()
     {
-        return view('ubicacion')->with(['ubicaciones' => Ubicacion::all()]);
+        return view('ubicacion')->with(['ubicacion' => Ubicacion::all()]);
     }
 
     public function ubicacion_alta()
