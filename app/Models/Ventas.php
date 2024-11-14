@@ -11,6 +11,10 @@ class Ventas extends Model
     protected $table='ventas';
     protected $primaryKey='id_venta';
     protected $fillable=[
-        'id_personal'
+        'id_personal',
+        'nombre'
     ];
+    public function personal(){
+        return $this->belongsTo(Personal::class,'id_personal');
+    }
 }

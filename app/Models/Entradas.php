@@ -13,5 +13,11 @@ class Entradas extends Model
     protected $fillable=[
         'id_producto',
         'id_proveedor'
-    ];
+        ];
+    public function producto(){
+        return $this->belongsTo(Productos::class,'id_producto');
+    }
+    public function proveedor(){
+        return $this->belongsTo(Proveedores::class,'id_proveedor');
+    }
 }

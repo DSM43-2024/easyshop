@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id_venta');
             $table->string('id_personal');
             $table->timestamps();
+            $table->string('nombre');
         });
     }
 

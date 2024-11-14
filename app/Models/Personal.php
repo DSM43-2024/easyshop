@@ -12,6 +12,7 @@ class Personal extends Model
     protected $primaryKey='id_personal';
     protected $fillable=[
         'tipo',
-        'activo'
+        'activo',
+        'nombre'
     ];
 }

@@ -71,13 +71,9 @@ Route::name('ubicacion_editar')->get('/ubicacion_editar/{id}', [UbicacionControl
 Route::name('ubicacion_salvar')->put('/ubicacion_salvar/{id}', [UbicacionController::class, 'ubicacion_salvar']);
 Route::name('ubicacion_borrar')->get('/ubicacion_borrar/{id}', [UbicacionController::class, 'ubicacion_borrar']);
 
-Route::name('ventas')->get('/ventas', [VentasController::class, 'ventas']);
-Route::name('venta_alta')->get('/venta_alta', [VentasController::class, 'venta_alta']);
-Route::name('venta_registrar')->post('/venta_registrar', [VentasController::class, 'venta_registrar']);
-Route::name('venta_detalle')->get('/venta_detalle/{id}', [VentasController::class, 'venta_detalle']);
-Route::name('venta_editar')->get('/venta_editar/{id}', [VentasController::class, 'venta_editar']);
-Route::name('venta_salvar')->put('/venta_salvar/{id}', [VentasController::class, 'venta_salvar']);
-Route::name('venta_borrar')->get('/venta_borrar/{id}', [VentasController::class, 'venta_borrar']);
+Route::get('/ventas', [VentasController::class, 'ventas'])->name('ventas');
+Route::name('venta_registrar')->post('/venta_registrar',[VentasController::class,'venta_registrar']);
+Route::name('venta_borrar')->get('/venta_borrar/{id}',[VentasController::class,'venta_borrar']);
 //rutas de las entradas de productos
 Route::get('/ep', [EntradaProductosController::class, 'ep'])->name('ep');
 Route::name('ep_registrar')->post('/ep_registrar',[EntradaProductosController::class,'ep_registrar']);

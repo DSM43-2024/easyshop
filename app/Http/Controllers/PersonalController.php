@@ -19,12 +19,14 @@ class PersonalController extends Controller
     public function personal_registrar(Request $request){
         $this->validate($request, [
             'tipo' => 'required',
-            'activo' => 'required'
+            'activo' => 'required',
+            'nombre'=>'required'
         ]);
 
         $personal = new Personal();
         $personal->tipo = $request->input('tipo');
         $personal->activo = $request->input('activo');
+        $personal->nombre = $request->input('nombre');
         $personal->save();
 
         return redirect()->route('personal')->with('success', 'Registrado exitosamente');
@@ -46,6 +48,7 @@ class PersonalController extends Controller
         $query = Personal::find($id->id_personal);
         $query->tipo = $request->tipo; 
         $query->activo = $request->activo;    
+        $query->nombre = $request->nombre;    
         $query->save();
 
         return redirect()->route("personal_editar", ['id' => $id->id_personal]);
