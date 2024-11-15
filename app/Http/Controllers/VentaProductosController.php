@@ -2,24 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Ventas;
+use App\Models\Productos;
 use App\Models\Venta_Productos;
+use Illuminate\Http\Request;
 
 class VentaProductosController extends Controller
 {
     public function vp()
     {
-        return view('vp')->with(['vp' => Venta_Productos::all()]);
+        // Obtener todas las ventas con sus productos asociados
+        $ventas = Ventas::with('ventaProductos')->get();
+        
+        // Obtener todos los productos disponibles
+        $productos = Productos::all();
+
+        // Obtener todos los registros de la tabla intermedia VentaProducto
+        $vp = Venta_Productos::with(['venta', 'producto'])->get(); // Cargar relaciones
+
+        return view('vp')->with([
+            'ventas' => $ventas,
+            'productos' => $productos,
+            'vp' => $vp,
+        ]);
     }
 
     public function vp_registrar(Request $request)
     {
-        $this->validate($request, [
-            'id_venta' => 'required',
-            'id_producto' => 'required',
+        $request->validate([
+            'id_venta' => 'required|exists:ventas,id_venta',
+            'id_producto' => 'required|exists:productos,id_producto',
             'fecha' => 'required|date',
         ]);
 
+        // Crear un nuevo registro en la tabla VentaProducto
         $vp = new Venta_Productos();
         $vp->id_venta = $request->input('id_venta');
         $vp->id_producto = $request->input('id_producto');
@@ -31,7 +47,8 @@ class VentaProductosController extends Controller
 
     public function vp_borrar(Venta_Productos $id)
     {
+        // Eliminar el registro de VentaProducto
         $id->delete();
-        return redirect()->route('vp');
+        return redirect()->route('vp')->with('success', 'Eliminado exitosamente');
     }
 }

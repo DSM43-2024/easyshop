@@ -14,4 +14,11 @@ class Proveedores extends Model
         'nombre',
         'email'
     ];
+    public function productos()
+    {
+        return $this->hasMany(Proveedores_Productos::class, 'id_proveedor');
+    }
+    public function entrada(){
+        return $this->belongsTo(Entradas::class,'id_entrada');
+    }
 }

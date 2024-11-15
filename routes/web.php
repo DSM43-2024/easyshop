@@ -12,6 +12,7 @@ use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\VentaProductosController;
 use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {return view('welcome');});
 Route::name('categorias')->get('/categorias',[CategoriasController::class,'categorias']);
 Route::name('categoria_alta')->get('/categoria_alta',[CategoriasController::class,'categoria_alta']);
@@ -29,13 +30,11 @@ Route::name('descuento_editar')->get('/descuento_editar/{id}', [DescuentosContro
 Route::name('descuento_salvar')->put('/descuento_salvar/{id}', [DescuentosController::class, 'descuento_salvar']);
 Route::name('descuento_borrar')->get('/descuento_borrar/{id}', [DescuentosController::class, 'descuento_borrar']);
 
-Route::name('entradas')->get('/entradas', [EntradasController::class, 'entradas']);
-Route::name('entrada_alta')->get('/entrada_alta', [EntradasController::class, 'entrada_alta']);
-Route::name('entrada_registrar')->post('/entrada_registrar', [EntradasController::class, 'entrada_registrar']);
-Route::name('entrada_detalle')->get('/entrada_detalle/{id}', [EntradasController::class, 'entrada_detalle']);
-Route::name('entrada_editar')->get('/entrada_editar/{id}', [EntradasController::class, 'entrada_editar']);
-Route::name('entrada_salvar')->put('/entrada_salvar/{id}', [EntradasController::class, 'entrada_salvar']);
-Route::name('entrada_borrar')->get('/entrada_borrar/{id}', [EntradasController::class, 'entrada_borrar']);
+
+Route::get('/entradas', [EntradasController::class, 'entradas'])->name('entradas');
+Route::name('entrada_registrar')->post('/entrada_registrar',[EntradasController::class,'entrada_registrar']);
+Route::name('entrada_borrar')->get('/entrada_borrar/{id}',[EntradasController::class,'entrada_borrar']);
+
 
 Route::name('personal')->get('/personal', [PersonalController::class, 'personal']);
 Route::name('personal_alta')->get('/personal_alta', [PersonalController::class, 'personal_alta']);
@@ -75,13 +74,12 @@ Route::get('/ventas', [VentasController::class, 'ventas'])->name('ventas');
 Route::name('venta_registrar')->post('/venta_registrar',[VentasController::class,'venta_registrar']);
 Route::name('venta_borrar')->get('/venta_borrar/{id}',[VentasController::class,'venta_borrar']);
 //rutas de las entradas de productos
-Route::get('/ep', [EntradaProductosController::class, 'ep'])->name('ep');
-Route::name('ep_registrar')->post('/ep_registrar',[EntradaProductosController::class,'ep_registrar']);
-Route::name('ep_borrar')->get('/ep_borrar/{id}',[EntradaProductosController::class,'ep_borrar']);
+
 
 Route::name('pp')->get('/pp', [ProveedoresProductosController::class, 'pp']);
 Route::name('pp_registrar')->post('/pp_registrar', [ProveedoresProductosController::class, 'pp_registrar']);
 Route::name('pp_borrar')->get('/pp_borrar/{id}', [ProveedoresProductosController::class, 'pp_borrar']);
+
 
 Route::name('vp')->get('/vp', [VentaProductosController::class, 'vp']);
 Route::name('vp_registrar')->post('/vp_registrar', [VentaProductosController::class, 'vp_registrar']);

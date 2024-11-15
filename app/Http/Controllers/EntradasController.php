@@ -1,57 +1,44 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Models\Entradas;
+use App\Models\Productos;
+use App\Models\Proveedores;
+use Illuminate\Http\Request;
 
 class EntradasController extends Controller
 {
-    public function entradas(){
-        return view('entradas')
-        ->with(['entradas'=> Entradas::all()]);
+    public function entradas()
+    {
+        // Obtener los productos, proveedores y las entradas
+        $productos = Productos::all();
+        $proveedores = Proveedores::all();
+        $entradas = Entradas::with(['producto', 'proveedor'])->get(); // Cargar las relaciones
+
+        // Pasar los datos a la vista
+        return view('entradas', compact('productos', 'proveedores', 'entradas'));
     }
 
-    public function entrada_alta()  {
-        return view("entrada_alta");
-    }
-
-    public function entrada_registrar(Request $request){
-        $this->validate($request, [
+    public function entrada_registrar(Request $request)
+    {
+        // Validar los datos recibidos
+        $request->validate([
+            'id_producto' => 'required',
             'id_proveedor' => 'required',
-            'id_producto' => 'required'
+            'created_at' => 'required|date',
         ]);
 
-        $entrada = new Entradas();
-        $entrada->id_entrada = $request->input('id_producto');
-        $entrada->id_producto = $request->input('nombre');
-        $entrada->id_proveedor = $request->input('detalle');
-        $entrada->save();
+        // Crear un nuevo registro de Entrada
+        Entradas::create([
+            'id_producto' => $request->input('id_producto'),
+            'id_proveedor' => $request->input('id_proveedor'),
+            'created_at' => $request->input('created_at'),
+        ]);
 
-        return redirect()->route('descuentos')->with('success', 'Registrado exitosamente');
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('entradas')->with('success', 'Entrada registrada exitosamente.');
     }
-
-    public function entrada_detalle($id){
-        $query = Entradas::find($id);
-        return view("entrada_detalle")
-        ->with(['entrada' => $query]);
-    }
-
-    public function entrada_editar($id){
-        $query = Entradas::find($id);
-        return view('entrada_editar')
-        ->with(['entrada' => $query]);
-    }
-
-    public function entrada_salvar(Entradas $id, Request $request) {
-        $query = Entradas::find($id->id_entrada);
-        $query->id_producto = $request->clave;
-        $query->id_proveedor = $request->nombre;    
-        $query->save();
-
-        return redirect()->route("entrada_editar", ['id' => $id->id_entrada]);
-    }
-
+    
     public function entrada_borrar(Entradas $id){
         $id->delete();
         return redirect()->route('entradas');

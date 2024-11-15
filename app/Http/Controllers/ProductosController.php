@@ -24,7 +24,8 @@ class ProductosController extends Controller
             'id_descuento'=>'required',
             'id_ubicacion'=>'required',
             'activo'=>'required',
-            'caducidad'=>'required'
+            'caducidad'=>'required',
+            'nombre'=>'required'
         ]);
 
         $producto = new Productos();

@@ -8,16 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Proveedores_Productos extends Model
 {
     use HasFactory;
-    protected $table='proveedor_producto';
-    protected $primaryKey='id_proveedor_producto';
-    protected $fillable=[
+    protected $table = 'proveedor_productos';
+    protected $primaryKey = 'id_proveedor_producto';
+    protected $fillable = [
         'id_proveedor',
         'id_producto'
     ];
-    public function proveedores(){
-        return $this->belongsTo(Proveedores::class,'id_proveedor');
+
+    // Relación con Proveedores
+    public function proveedor()
+    {
+        return $this->belongsTo(Proveedores::class, 'id_proveedor');
     }
-    public function productos(){
-        return $this->belongsTo(Productos::class,'id_producto');
+
+    // Relación con Productos
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'id_producto');
     }
 }

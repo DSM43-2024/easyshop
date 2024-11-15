@@ -17,6 +17,18 @@ class Productos extends Model
         'id_descuento',
         'id_ubicacion',
         'activo',
-        'caducidad'
+        'caducidad',
+        'nombre'
     ];
+    public function proveedores()
+    {
+        return $this->hasMany(Proveedores_Productos::class, 'id_producto');
+    }
+    public function venta(){
+        return $this->belongsTo(Ventas::class,'id_venta');
+    }
+    public function entrada(){
+        return $this->belongsTo(Entradas::class,'id_entrada');
+    }
+   
 }

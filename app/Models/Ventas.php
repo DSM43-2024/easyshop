@@ -17,4 +17,11 @@ class Ventas extends Model
     public function personal(){
         return $this->belongsTo(Personal::class,'id_personal');
     }
+    public function producto(){
+        return $this->belongsTo(Productos::class,'id_producto');
+    }
+    public function ventaProductos()
+    {
+        return $this->hasMany(Venta_Productos::class, 'id_venta_producto');
+    } 
 }

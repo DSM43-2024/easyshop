@@ -8,17 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Venta_Productos extends Model
 {
     use HasFactory;
-    protected $table='venta_productos';
-    protected $primaryKey='id_venta_producto';
-    protected $fillable=[
+
+    protected $table = 'venta_productos';
+    protected $primaryKey = 'id_venta_producto';
+    protected $fillable = [
         'id_venta',
         'id_producto',
-        'fecha'
+        'fecha',
     ];
-    public function ventas(){
-        return $this->belongsTo(Ventas::class,'id_venta');
+
+    public function venta()
+    {
+        return $this->belongsTo(Ventas::class, 'id_venta');
     }
-    public function productos(){
-        return $this->belongsTo(Productos::class,'id_producto');
+
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'id_producto');
     }
+    
 }

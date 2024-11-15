@@ -1,0 +1,128 @@
+body{
+    background-image: url('bg.png');
+    font-family:var(--fuente) ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: contain;
+    background-position: left;   
+}
+html{
+    box-sizing: border-box;
+}
+*,*::after, *::before{
+    box-sizing: inherit;
+}
+:root{
+    --azul:#28398d;
+    --azul_claro:#7387c3;
+    --fuente:'Lexend Deca', sans-serif;
+
+}
+.contenedor{
+    margin: 0 auto;
+    max-width: 1200 px;
+    width: 95%;
+}
+.contenedor-formulario{
+    display: flex;
+    justify-content: right;
+    
+}
+@media(min-width:768px){
+    .contenedor-formulario{
+        display: flex;
+    }
+}
+.formulario{
+ padding: 30px 40px;
+ background-color: rgba(0, 0, 0, 0.232);
+ backdrop-filter: blur(20px);
+ border-radius: 10px;
+ border: 2px solid rgba(255,255,255,.2);
+ box-shadow: 0 0 10px rgba(0,0,0,.2);
+ color: white;
+
+}
+.texto-formulario h2{
+    font-size: 50px;
+    text-align: center
+}
+.texto-formulario p{
+    font-size: 22px;
+    text-align: center;
+    color: white;
+}
+.texto-formulario h2, .input label, a{
+    color: beige;
+}
+.input label{
+    display:block;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.input input {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 20px;
+    outline: none;
+    background-color: transparent; 
+    color: white; 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+}  
+.input input[type="submit"]{
+    background-color:rgba(96, 94, 94, 0.147);
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    border: none;
+    transition: background-color .3s ease-in-out;
+}
+.input input[type="submit"]:hover{
+    
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.164);
+    backdrop-filter: blur(20%);
+}
+.password-olvidada a{
+text-decoration: none;
+font-size: 15px;
+}
+.password-olvidada a:hover{
+    text-decoration:underline;
+    font-size: 15px;
+    }
+    .password-olvidada label input{
+        accent-color: #767676;
+        margin-right: 3px;
+    }
+    .password-olvidada{
+        text-align:right;
+        color: #28398d;
+
+    }
+.remember{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    margin: -15px 0 15px;
+    font-style: italic;
+    text-align: left;
+    color: rgb(174, 174, 239);
+}
+.remember:hover{
+    text-decoration: underline;
+}
+.registrar a{
+display: inline-block;
+margin-top: 10px;
+font-size: 22px;
+color: rgb(176, 176, 235);
+text-decoration: none;
+}
+.registrar a:hover{
+    text-decoration: underline;
+}
