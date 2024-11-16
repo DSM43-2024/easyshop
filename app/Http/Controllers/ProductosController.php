@@ -23,6 +23,7 @@ class ProductosController extends Controller
             'ubicaciones' => $ubicaciones,
             'productos' => $productos,
         ]);
+
     }
     public function producto_registrar(Request $request)
     {
@@ -50,7 +51,6 @@ class ProductosController extends Controller
     
         return redirect()->route('productos')->with('success', 'Registrado exitosamente');
     }
-    
     
 
     

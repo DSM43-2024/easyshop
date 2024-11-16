@@ -42,6 +42,8 @@
             </tr>
             @endforeach
         </table>
+        {{ $categorias->links('pagination::bootstrap-5') }}
+        <div class="pagination pagination-sm">
     </div>
 </body>
 </html>

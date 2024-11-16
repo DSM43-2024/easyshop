@@ -9,7 +9,7 @@ class PersonalController extends Controller
 {
     public function personal(){
         return view('personal')
-        ->with(['personal'=> Personal::all()]);
+        ->with(['personal' => Personal::paginate(10)]); // paginate 10 items per page
     }
 
     public function personal_alta()  {

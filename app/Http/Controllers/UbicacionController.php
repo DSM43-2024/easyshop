@@ -9,7 +9,10 @@ class UbicacionController extends Controller
 {
     public function ubicacion()
     {
-        return view('ubicacion')->with(['ubicacion' => Ubicacion::all()]);
+        // Paginación de 10 elementos por página
+        $ubicacion = Ubicacion::paginate(10);
+
+        return view('ubicacion', compact('ubicacion')); // Utilizando compact para enviar la variable a la vista
     }
 
     public function ubicacion_alta()
@@ -24,24 +27,27 @@ class UbicacionController extends Controller
             'pasillo' => 'required',
         ]);
 
-        $ubicacion = new Ubicacion();
-        $ubicacion->estante = $request->input('estante');
-        $ubicacion->pasillo = $request->input('pasillo');
-        $ubicacion->save();
+        // Crear una nueva ubicación y guardar
+        Ubicacion::create([
+            'estante' => $request->input('estante'),
+            'pasillo' => $request->input('pasillo'),
+        ]);
 
         return redirect()->route('ubicacion')->with('success', 'Ubicación registrada exitosamente');
     }
 
     public function ubicacion_detalle($id)
     {
-        $ubicacion = Ubicacion::find($id);
-        return view('ubicacion_detalle')->with(['ubicacion' => $ubicacion]);
+        // Usamos findOrFail para manejar excepciones si no se encuentra la ubicación
+        $ubicacion = Ubicacion::findOrFail($id);
+        return view('ubicacion_detalle', compact('ubicacion'));
     }
 
     public function ubicacion_editar($id)
     {
-        $ubicacion = Ubicacion::find($id);
-        return view('ubicacion_editar')->with(['ubicacion' => $ubicacion]);
+        // Usamos findOrFail aquí también
+        $ubicacion = Ubicacion::findOrFail($id);
+        return view('ubicacion_editar', compact('ubicacion'));
     }
 
     public function ubicacion_salvar(Request $request, $id)
@@ -51,7 +57,7 @@ class UbicacionController extends Controller
             'pasillo' => 'required',
         ]);
 
-        $ubicacion = Ubicacion::find($id);
+        $ubicacion = Ubicacion::findOrFail($id);
         $ubicacion->estante = $request->input('estante');
         $ubicacion->pasillo = $request->input('pasillo');
         $ubicacion->save();
@@ -61,8 +67,10 @@ class UbicacionController extends Controller
 
     public function ubicacion_borrar($id)
     {
-        $ubicacion = Ubicacion::find($id);
+        // Usamos findOrFail para asegurar que el registro exista
+        $ubicacion = Ubicacion::findOrFail($id);
         $ubicacion->delete();
+
         return redirect()->route('ubicacion')->with('success', 'Ubicación eliminada exitosamente');
     }
 }

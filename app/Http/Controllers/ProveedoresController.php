@@ -8,7 +8,9 @@ use App\Models\Proveedores;
 class ProveedoresController extends Controller
 {
     public function proveedores(){
-        return view('proveedores')->with(['proveedores' => Proveedores::all()]);
+        return view('proveedores')
+        ->with(['proveedores' => Proveedores::paginate(10)]); // paginate 10 items per page
+
     }
 
 
@@ -27,19 +29,19 @@ class ProveedoresController extends Controller
         return redirect()->route('proveedores')->with('success', 'Proveedor registrado exitosamente');
     }
 
-    public function detalle($id){
+    public function proveedor_detalle($id){
         $proveedor = Proveedores::find($id);
         return view("proveedores_detalle")->with(['proveedor' => $proveedor]);
     }
 
-    public function editar($id){
+    public function proveedor_editar($id){
         $proveedor = Proveedores::find($id);
         return view('proveedores_editar')->with(['proveedor' => $proveedor]);
     }
     public function proveedor_alta()  {
         return view("proveedor_alta");
     }
-    public function salvar(Request $request, $id) {
+    public function proveedor_salvar(Request $request, $id) {
         $this->validate($request, [
             'nombre' => 'required',
             'email' => 'required|email',
@@ -53,7 +55,7 @@ class ProveedoresController extends Controller
         return redirect()->route("proveedores_editar", ['id' => $id])->with('success', 'Proveedor actualizado exitosamente');
     }
 
-    public function borrar($id){
+    public function proveedor_borrar($id){
         $proveedor = Proveedores::find($id);
         $proveedor->delete();
         return redirect()->route('proveedores')->with('success', 'Proveedor eliminado exitosamente');

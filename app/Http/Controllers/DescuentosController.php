@@ -9,7 +9,7 @@ class DescuentosController extends Controller
 {
     public function descuentos(){
         return view('descuentos')
-        ->with(['descuentos'=> Descuentos::all()]);
+        ->with(['descuentos' => Descuentos::paginate(10)]); // paginate 10 items per page
     }
 
     public function descuento_alta()  {

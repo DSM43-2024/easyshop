@@ -48,6 +48,8 @@
             </tr>
             @endforeach
         </table>
+        {{ $descuentos->links('pagination::bootstrap-5') }}
+        <div class="pagination pagination-sm"></div>
     </div>
 </body>
 </html>

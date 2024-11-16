@@ -9,7 +9,7 @@ class CategoriasController extends Controller
 {
     public function categorias(){
         return view('categorias')
-        ->with(['categorias'=> Categorias::all()]);
+        ->with(['categorias' => Categorias::paginate(10)]); // paginate 10 items per page
     }
 
     public function categoria_alta()  {
