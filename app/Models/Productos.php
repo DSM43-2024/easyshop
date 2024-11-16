@@ -30,5 +30,14 @@ class Productos extends Model
     public function entrada(){
         return $this->belongsTo(Entradas::class,'id_entrada');
     }
+    public function categoria(){
+        return $this->belongsTo(Entradas::class,'id_categoria');
+    }
+    public function descuento(){
+        return $this->belongsTo(Descuentos::class,'id_descuento');
+    }
    
+    public function ubicacion(){
+        return $this->belongsTo(Ubicacion::class,'id_ubicacion');
+    }
 }

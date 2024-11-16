@@ -41,4 +41,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Tipos de usuario
+    public const TIPO_ADMINISTRADOR = 'administrador';
+    public const TIPO_USUARIO = 'usuario';
+
+    /**
+     * Verificar si el usuario es administrador.
+     *
+     * @return bool
+     */
+    public function esAdministrador(): bool
+    {
+        return $this->tipo === self::TIPO_ADMINISTRADOR;
+    }
+
+    /**
+     * Verificar si el usuario es un usuario normal.
+     *
+     * @return bool
+     */
+    public function esUsuario(): bool
+    {
+        return $this->tipo === self::TIPO_USUARIO;
+    }
 }

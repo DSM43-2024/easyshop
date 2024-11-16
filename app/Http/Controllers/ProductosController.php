@@ -2,63 +2,65 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Models\Productos;
+use App\Models\Categorias;
+use App\Models\Ubicacion;
+use App\Models\Descuentos;
 
 class ProductosController extends Controller
 {
-    public function productos(){
-        return view('productos')
-        ->with(['productos'=> Productos::all()]);
-    }
+    public function productos()
+    {
+        // Obtener todos los registros de las tablas relacionadas sin las relaciones innecesarias
+        $categorias = Categorias::all();
+        $descuentos = Descuentos::all();
+        $ubicaciones = Ubicacion::all();
+        $productos = Productos::with(['categoria', 'descuento', 'ubicacion'])->get();
 
-    public function productos_alta() {
-        return view("productos_alta");
-    }
-
-    public function productos_registrar(Request $request){
-        $this->validate($request, [
-            'id_categoria' => 'required',
-            'stock' => 'required',
-            'precio'=>'required',
-            'id_descuento'=>'required',
-            'id_ubicacion'=>'required',
-            'activo'=>'required',
-            'caducidad'=>'required',
-            'nombre'=>'required'
+        return view('productos')->with([
+            'categorias' => $categorias,
+            'descuentos' => $descuentos,
+            'ubicaciones' => $ubicaciones,
+            'productos' => $productos,
         ]);
-
+    }
+    public function producto_registrar(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required',
+            'stock' => 'required',
+            'precio' => 'required',
+            'caducidad' => 'required',
+            'id_categoria' => 'required',
+            'id_descuento' => 'nullable',
+            'id_ubicacion' => 'required',
+        ]);
+    
         $producto = new Productos();
-        $producto->tipo = $request->input('tipo');
-        $producto->activo = $request->input('activo');
+        $producto->nombre = $request->input('nombre');
+        $producto->stock = $request->input('stock');
+        $producto->precio = $request->input('precio');
+        $producto->caducidad = $request->input('caducidad');
+        $producto->id_categoria = $request->input('id_categoria');
+        $producto->id_descuento = $request->input('id_descuento');
+        $producto->id_ubicacion = $request->input('id_ubicacion');
+        $producto->activo = $request->has('activo') ? true : false; // Si está marcado, se guarda como 'true'
+    
         $producto->save();
-
-        return redirect()->route('productos')->with('success', 'Producto registrado exitosamente');
+    
+        return redirect()->route('productos')->with('success', 'Registrado exitosamente');
     }
+    
+    
 
-    public function productos_detalle($id){
-        $query = Productos::find($id);
-        return view("productos_detalle")
-        ->with(['producto' => $query]);
-    }
+    
 
-    public function productos_editar($id){
-        $query = Productos::find($id);
-        return view('productos_editar')
-        ->with(['producto' => $query]);
-    }
-
-    public function productos_salvar(Productos $id, Request $request) {
-        $query = Productos::find($id->id_producto);
-        $query->tipo = $request->tipo; 
-        $query->activo = $request->activo;    
-        $query->save();
-
-        return redirect()->route("productos_editar", ['id' => $id->id_producto]);
-    }
-
-    public function productos_borrar(Productos $id){
+    public function producto_borrar(Productos $id)
+    {
+        // Eliminar el producto por su ID
         $id->delete();
-        return redirect()->route('productos');
+
+        // Redirigir o retornar mensaje
+        return redirect()->route('productos')->with('success', 'Producto eliminado exitosamente');
     }
 }

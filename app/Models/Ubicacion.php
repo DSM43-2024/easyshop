@@ -14,4 +14,8 @@ class Ubicacion extends Model
         'estante',
         'pasillo'
     ];
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'id_producto');
+    }
 }

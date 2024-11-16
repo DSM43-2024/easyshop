@@ -14,5 +14,9 @@ class Categorias extends Model
         'nombre',
         'tipo'
     ];
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'id_producto');
+    }
 
 }

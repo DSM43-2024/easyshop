@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('tipo')->default('usuario'); // Agregar el campo tipo con valor predeterminado 'usuario'
             $table->rememberToken();
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

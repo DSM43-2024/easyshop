@@ -15,4 +15,8 @@ class Descuentos extends Model
         'cantidad',
         'activo'
     ];
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'id_producto');
+    }
 }
