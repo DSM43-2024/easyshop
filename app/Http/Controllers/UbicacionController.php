@@ -14,7 +14,35 @@ class UbicacionController extends Controller
 
         return view('ubicacion', compact('ubicacion')); // Utilizando compact para enviar la variable a la vista
     }
-
+    public function exportarCSV()
+    {
+        $fileName = "ubicaciones.csv";
+    
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    
+        $output = fopen('php://output', 'w');
+    
+        // Encabezados
+        fputcsv($output, ['ID', 'Estante', 'Pasillo', 'Fecha de Creación', 'Última Actualización']);
+    
+        // Datos de la base
+        $ubicaciones = Ubicacion::all();
+    
+        foreach ($ubicaciones as $ubicacion) {
+            fputcsv($output, [
+                $ubicacion->id, 
+                $ubicacion->estante, 
+                $ubicacion->pasillo, 
+                $ubicacion->created_at, 
+                $ubicacion->updated_at
+            ]);
+        }
+    
+        fclose($output);
+        exit();
+    }
+    
     public function ubicacion_alta()
     {
         return view('ubicacion_alta');

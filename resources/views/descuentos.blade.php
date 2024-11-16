@@ -8,6 +8,46 @@
 </head>
 <body>
     <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('entradas') }}">Entradas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('productos') }}">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <br><br>
         <h3>Lista de descuento  </h3>
         <h5>CRUD:descuentos</h5>
@@ -16,6 +56,10 @@
             <a href="{{route('descuento_alta')}}">
                 <button type="button" class="btn btn-info">Nuevo registro de descuentos</button>
             </a>
+            <a href="{{ route('descuentos.exportarCSV') }}" class="btn btn-success mb-3">
+    Exportar a CSV
+</a>
+
         </p>
         <br><br>
         <table class="table">

@@ -10,6 +10,7 @@ use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\VentaProductosController;
 use App\Http\Controllers\LoginController;
+use App\Models\Ubicacion;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { return view('index'); })->name('index');
@@ -83,4 +84,10 @@ Route::name('pp_borrar')->get('/pp_borrar/{id}', [ProveedoresProductosController
 Route::name('vp')->get('/vp', [VentaProductosController::class, 'vp']);
 Route::name('vp_registrar')->post('/vp_registrar', [VentaProductosController::class, 'vp_registrar']);
 Route::name('vp_borrar')->get('/vp_borrar/{id}', [VentaProductosController::class, 'vp_borrar']);
+
+Route::get('/categorias/exportar-csv', [CategoriasController::class, 'exportarCSV'])->name('categorias.exportarCSV');
+Route::get('/descuentos/exportar-csv', [DescuentosController::class, 'exportarCSV'])->name('descuentos.exportarCSV');
+Route::get('/proveedores/exportar-csv', [ProveedoresController::class, 'exportarCSV'])->name('proveedores.exportarCSV');
+Route::get('/ubicacion/exportar-csv', [Ubicacion::class, 'exportarCSV'])->name('ubicacion.exportarCSV');
+Route::get('/personal/exportar-csv', [PersonalController::class, 'exportarCSV'])->name('personal.exportarCSV');
 

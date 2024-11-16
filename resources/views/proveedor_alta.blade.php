@@ -26,6 +26,7 @@
 </head>
 <body>
     <div class="container">
+        
         <h3>Nuevo Registro de Proveedores</h3>
         <h5>CRUD: Proveedores -> Proveedores</h5>
         <hr><br>

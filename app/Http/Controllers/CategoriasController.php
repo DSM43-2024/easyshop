@@ -11,7 +11,40 @@ class CategoriasController extends Controller
         return view('categorias')
         ->with(['categorias' => Categorias::paginate(10)]); // paginate 10 items per page
     }
-
+    public function exportarCSV()
+    {
+        // Nombre del archivo
+        $fileName = "categorias.csv";
+    
+        // Configuración de encabezados para la descarga
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    
+        // Abrir un flujo de salida
+        $output = fopen('php://output', 'w');
+    
+        // Escribir los encabezados de las columnas
+        fputcsv($output, ['ID', 'Nombre', 'Tipo', 'Fecha de Creación', 'Última Actualización']);
+    
+        // Obtener los datos de la base de datos
+        $categorias = Categorias::all();
+    
+        // Escribir cada fila de datos
+        foreach ($categorias as $categoria) {
+            fputcsv($output, [
+                $categoria->id_categoria, 
+                $categoria->nombre, 
+                $categoria->tipo, 
+                $categoria->created_at, 
+                $categoria->updated_at
+            ]);
+        }
+    
+        // Cerrar el flujo de salida
+        fclose($output);
+        exit();
+    }
+    
     public function categoria_alta()  {
         return view("categoria_alta");
     }

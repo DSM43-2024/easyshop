@@ -12,34 +12,71 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-dark bg-dark fixed-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ url('img/logo_utvt.jpg') }}" alt="Logo UTVT" width="45">
-                    TSU-DSM
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('productos') }}">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <!-- Categorías -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
+      </li>
+  
+
+      <!-- Descuentos -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a>
+      </li>
+   
+      <!-- Entradas -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('entradas') }}">Entradas</a>
+      </li>
+
+      <!-- Personal -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
+      </li>
+      
+
+      <!-- Productos -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('productos') }}">Productos</a>
+      </li>
+    
+
+      <!-- Proveedores -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
+      </li>
+    
+      <!-- Ubicación -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
+      </li>
+ 
+
+      <!-- Ventas -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+      </li>
+    
+
+      <!-- Proveedores-Productos -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
+      </li>
+
+      <!-- Ventas-Productos -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
         <br><br><br>
 
@@ -66,8 +103,6 @@
                 <input type="date" class="form-control" name="caducidad" id="caducidad">
                 <label class="input-group-text" for="caducidad">Fecha de Caducidad</label>
             </div>
-
-          
 
             <div class="input-group mb-3">
                 <select class="form-select" name="id_categoria" id="id_categoria">
@@ -98,8 +133,6 @@
                 </select>
                 <label class="input-group-text" for="id_ubicacion">Ubicación</label>
             </div>
-
-           
 
             <div class="input-group mb-3">
                 <input type="checkbox" class="form-check-input" name="activo" id="activo" checked>

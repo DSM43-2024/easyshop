@@ -15,6 +15,40 @@ class DescuentosController extends Controller
     public function descuento_alta()  {
         return view("descuento_alta");
     }
+    public function exportarCSV()
+{
+    // Nombre del archivo
+    $fileName = "descuentos.csv";
+
+    // Configuración de encabezados para la descarga
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+    // Abrir un flujo de salida
+    $output = fopen('php://output', 'w');
+
+    // Escribir los encabezados de las columnas
+    fputcsv($output, ['ID', 'Nombre', 'Cantidad', 'Activo', 'Fecha de Creación', 'Última Actualización']);
+
+    // Obtener los datos de la base de datos
+    $descuentos = Descuentos::all();
+
+    // Escribir cada fila de datos
+    foreach ($descuentos as $descuento) {
+        fputcsv($output, [
+            $descuento->id_descuento, 
+            $descuento->nombre, 
+            $descuento->cantidad, 
+            $descuento->activo, 
+            $descuento->created_at, 
+            $descuento->updated_at
+        ]);
+    }
+
+    // Cerrar el flujo de salida
+    fclose($output);
+    exit();
+}
 
     public function descuento_registrar(Request $request){
         $this->validate($request, [

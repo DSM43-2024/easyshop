@@ -9,18 +9,47 @@
 </head>
 <body>
     <div class="container">
-        <nav class="navbar navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="">
-                    <img src="{{ url('img/logo_utvt.jpg') }}" alt="" width="45">
-                    TSU-DSM:
-                </a>
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{{ route('entradas') }}">Entradas</a>
-                </div>
+        
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('productos') }}">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
+                    </li>
+                </ul>
             </div>
         </nav>
-
         <br><br>
 
         <h3>Registrar Entrada de Producto</h3>

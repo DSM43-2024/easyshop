@@ -13,7 +13,35 @@ class ProveedoresController extends Controller
 
     }
 
-
+    public function exportarCSV()
+    {
+        $fileName = "proveedores.csv";
+    
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    
+        $output = fopen('php://output', 'w');
+    
+        // Encabezados
+        fputcsv($output, ['ID', 'Nombre', 'Email', 'Fecha de Creación', 'Última Actualización']);
+    
+        // Datos de la base
+        $proveedores = Proveedores::all();
+    
+        foreach ($proveedores as $proveedor) {
+            fputcsv($output, [
+                $proveedor->id, 
+                $proveedor->nombre, 
+                $proveedor->email, 
+                $proveedor->created_at, 
+                $proveedor->updated_at
+            ]);
+        }
+    
+        fclose($output);
+        exit();
+    }
+    
 
     public function proveedor_registrar(Request $request){
         $this->validate($request, [

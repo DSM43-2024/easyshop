@@ -43,7 +43,37 @@ class PersonalController extends Controller
         return view('personal_editar')
         ->with(['personal' => $query]);
     }
+    public function exportarCSV()
+    {
+        $fileName = "personal.csv";
 
+        // Configurar encabezados para la descarga
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+        $output = fopen('php://output', 'w');
+
+        // Escribir los encabezados de las columnas
+        fputcsv($output, ['ID', 'Nombre', 'Tipo', 'Activo', 'Fecha de Creación', 'Última Actualización']);
+
+        // Obtener los datos de la base de datos
+        $personal = Personal::all();
+
+        // Escribir cada fila de datos
+        foreach ($personal as $persona) {
+            fputcsv($output, [
+                $persona->id_personal,
+                $persona->nombre,
+                $persona->tipo,
+                $persona->activo,
+                $persona->created_at,
+                $persona->updated_at,
+            ]);
+        }
+
+        fclose($output);
+        exit();
+    }
     public function personal_salvar(Personal $id, Request $request) {
         $query = Personal::find($id->id_personal);
         $query->tipo = $request->tipo; 
