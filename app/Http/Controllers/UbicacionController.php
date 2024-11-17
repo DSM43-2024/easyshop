@@ -47,7 +47,19 @@ class UbicacionController extends Controller
     {
         return view('ubicacion_alta');
     }
-
+    public function buscarUbicacion(Request $request)
+    {
+        $buscar = $request->get('buscar');
+    
+        // Buscar ubicaciones por estante o pasillo
+        $ubicacion = Ubicacion::where('estante', 'like', "%$buscar%")
+                                ->orWhere('pasillo', 'like', "%$buscar%")
+                                ->paginate(10); // Paginación de resultados
+    
+        // Retornar la vista con las ubicaciones filtradas
+        return view('ubicacion', compact('ubicacion'));
+    }
+    
     public function ubicacion_registrar(Request $request)
     {
         $this->validate($request, [

@@ -2,93 +2,124 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Models\Descuentos;
 
 class DescuentosController extends Controller
 {
-    public function descuentos(){
-        return view('descuentos')
-        ->with(['descuentos' => Descuentos::paginate(10)]); // paginate 10 items per page
+    public function descuentos()
+    {
+        return view('descuentos', [
+            'descuentos' => Descuentos::paginate(10)
+        ]);
     }
 
-    public function descuento_alta()  {
+    public function descuento_alta()
+    {
         return view("descuento_alta");
     }
+
     public function exportarCSV()
-{
-    // Nombre del archivo
-    $fileName = "descuentos.csv";
+    {
+        $fileName = "descuentos.csv";
 
-    // Configuración de encabezados para la descarga
-    header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
 
-    // Abrir un flujo de salida
-    $output = fopen('php://output', 'w');
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['ID', 'Nombre', 'Cantidad', 'Activo', 'Fecha de Creación', 'Última Actualización']);
 
-    // Escribir los encabezados de las columnas
-    fputcsv($output, ['ID', 'Nombre', 'Cantidad', 'Activo', 'Fecha de Creación', 'Última Actualización']);
+        $descuentos = Descuentos::all();
 
-    // Obtener los datos de la base de datos
-    $descuentos = Descuentos::all();
+        foreach ($descuentos as $descuento) {
+            fputcsv($output, [
+                $descuento->id_descuento, 
+                $descuento->nombre, 
+                $descuento->cantidad, 
+                $descuento->activo, 
+                $descuento->created_at, 
+                $descuento->updated_at
+            ]);
+        }
 
-    // Escribir cada fila de datos
-    foreach ($descuentos as $descuento) {
-        fputcsv($output, [
-            $descuento->id_descuento, 
-            $descuento->nombre, 
-            $descuento->cantidad, 
-            $descuento->activo, 
-            $descuento->created_at, 
-            $descuento->updated_at
+        fclose($output);
+        exit();
+    }
+
+    public function buscar(Request $request)
+    {
+        $buscar = $request->get('buscar');
+
+        $descuentos = Descuentos::where('nombre', 'like', "%$buscar%")
+                                ->orWhere('cantidad', 'like', "%$buscar%")
+                                ->paginate(10);
+
+        return view('descuentos', [
+            'descuentos' => $descuentos
         ]);
     }
 
-    // Cerrar el flujo de salida
-    fclose($output);
-    exit();
-}
-
-    public function descuento_registrar(Request $request){
-        $this->validate($request, [
+    public function descuento_registrar(Request $request)
+    {
+        $request->validate([
             'nombre' => 'required',
-            'cantidad' => 'required',
-            'activo' => 'required'
+            'cantidad' => 'required|numeric',
+            'activo' => 'required|boolean'
         ]);
 
-        $descuento = new Descuentos();
-        $descuento->nombre = $request->input('nombre');
-        $descuento->cantidad = $request->input('cantidad');
-        $descuento->activo = $request->input('activo');
-        $descuento->save();
+        Descuentos::create($request->only(['nombre', 'cantidad', 'activo']));
 
         return redirect()->route('descuentos')->with('success', 'Registrado exitosamente');
     }
 
-    public function descuento_detalle($id){
-        $query = Descuentos::find($id);
-        return view("descuento_detalle")
-        ->with(['descuento' => $query]);
+    public function descuento_detalle($id)
+    {
+        $descuento = Descuentos::find($id);
+
+        if (!$descuento) {
+            return redirect()->route('descuentos')->with('error', 'Descuento no encontrado');
+        }
+
+        return view("descuento_detalle", compact('descuento'));
     }
 
-    public function descuento_editar($id){
-        $query = Descuentos::find($id);
-        return view('descuento_editar')
-        ->with(['descuento' => $query]);
+    public function descuento_editar($id)
+    {
+        $descuento = Descuentos::find($id);
+
+        if (!$descuento) {
+            return redirect()->route('descuentos')->with('error', 'Descuento no encontrado');
+        }
+
+        return view('descuento_editar', compact('descuento'));
     }
 
-    public function descuento_salvar(Descuentos $id, Request $request) {
-        $query = Descuentos::find($id->id_descuento);
-        $query->nombre = $request->nombre;    
-        $query->activo = $request->activo;    
-        $query->save();
+    public function descuento_salvar(Request $request, $id)
+    {
+        $descuento = Descuentos::find($id);
 
-        return redirect()->route("descuento_editar", ['id' => $id->id_descuento]);
+        if (!$descuento) {
+            return redirect()->route('descuentos')->with('error', 'Descuento no encontrado');
+        }
+
+        $request->validate([
+            'nombre' => 'required',
+            'activo' => 'required|boolean'
+        ]);
+
+        $descuento->update($request->only(['nombre', 'activo']));
+
+        return redirect()->route("descuento_editar", ['id' => $id]);
     }
 
-    public function descuento_borrar(Descuentos $id){
-        $id->delete();
-        return redirect()->route('descuentos');
+    public function descuento_borrar($id)
+    {
+        $descuento = Descuentos::find($id);
+
+        if (!$descuento) {
+            return redirect()->route('descuentos')->with('error', 'Descuento no encontrado');
+        }
+
+        $descuento->delete();
+        return redirect()->route('descuentos')->with('success', 'Descuento eliminado');
     }
 }

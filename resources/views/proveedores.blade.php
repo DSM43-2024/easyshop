@@ -6,17 +6,10 @@
     <title>Lista de proveedores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pN1yT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
-
-
 </head>
 <body>
     <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,9 +32,6 @@
                         <a class="nav-link" href="{{ route('productos') }}">Productos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
                     </li>
                     <li class="nav-item">
@@ -50,13 +40,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
-                    </li>
                 </ul>
             </div>
         </nav>
-        <h3>Lista de Proveedores </h3>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Lista de Proveedores </h3>
+            <!-- Cuadro de búsqueda -->
+            <form method="GET" action="{{ route('proveedores.buscar') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar proveedor" value="{{ request()->get('buscar') }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+
         <h5>CRUD: Proveedor</h5>
         <hr>
         
@@ -65,9 +61,8 @@
                 <button type="button" class="btn btn-primary btn-sm">Nuevo Registro</button>
             </a>
             <a href="{{ route('proveedores.exportarCSV') }}" class="btn btn-success mb-3">
-    Exportar Proveedores a CSV
-</a>
-
+                Exportar Proveedores a CSV
+            </a>
         </p>
         <hr><br>
 

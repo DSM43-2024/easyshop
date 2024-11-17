@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -34,35 +34,32 @@
                         <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
-                    </li>
                 </ul>
             </div>
         </nav>
-        <br><br>
-        <h3>Lista de Ubicaciones</h3>
+        <br>
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Lista de Ubicaciones</h3>
+            <form method="GET" action="{{ route('ubicacion.buscar') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar ubicación" value="{{ request()->get('buscar') }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
         <h5>CRUD: Ubicación</h5>
         <hr>
-        <p style="text-align: right;">
+        <p class="text-right">
             <a href="{{ route('ubicacion_alta') }}">
                 <button type="button" class="btn btn-info">Nuevo registro de ubicación</button>
             </a>
-            <a href="{{ route('ubicacion.exportarCSV') }}" class="btn btn-success mb-3">
-    Exportar Ubicaciones a CSV
-</a>
-
+            <a href="{{ route('ubicacion.exportarCSV') }}" class="btn btn-success mb-3">Exportar Ubicaciones a CSV</a>
         </p>
-        <br><br>
-        <table class="table">
+        <br>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -84,7 +81,7 @@
                         <a href="{{ route('ubicacion_editar', ['id' => $item->id_ubicacion]) }}">
                             <button type="button" class="btn btn-info btn-sm">Editar</button>
                         </a>
-                        <a href="{{ route('ubicacion_borrar', ['id' => $item->id_ubicacion]) }}">
+                        <a href="{{ route('ubicacion_borrar', ['id' => $item->id_ubicacion]) }}" onclick="return confirm('¿Seguro que desea borrar esta ubicación?')">
                             <button type="button" class="btn btn-danger btn-sm">Borrar</button>
                         </a>
                     </td>

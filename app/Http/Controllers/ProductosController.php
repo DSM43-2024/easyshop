@@ -15,7 +15,7 @@ class ProductosController extends Controller
         $categorias = Categorias::all();
         $descuentos = Descuentos::all();
         $ubicaciones = Ubicacion::all();
-        $productos = Productos::with(['categoria', 'descuento', 'ubicacion'])->get();
+        $productos = Productos::with(['categoria', 'descuento', 'ubicacion'])->paginate(10); // Paginación
 
         return view('productos')->with([
             'categorias' => $categorias,
@@ -23,8 +23,8 @@ class ProductosController extends Controller
             'ubicaciones' => $ubicaciones,
             'productos' => $productos,
         ]);
-
     }
+
     public function producto_registrar(Request $request)
     {
         $request->validate([
@@ -36,7 +36,7 @@ class ProductosController extends Controller
             'id_descuento' => 'nullable',
             'id_ubicacion' => 'required',
         ]);
-    
+
         $producto = new Productos();
         $producto->nombre = $request->input('nombre');
         $producto->stock = $request->input('stock');
@@ -46,14 +46,11 @@ class ProductosController extends Controller
         $producto->id_descuento = $request->input('id_descuento');
         $producto->id_ubicacion = $request->input('id_ubicacion');
         $producto->activo = $request->has('activo') ? true : false; // Si está marcado, se guarda como 'true'
-    
+
         $producto->save();
-    
+
         return redirect()->route('productos')->with('success', 'Registrado exitosamente');
     }
-    
-
-    
 
     public function producto_borrar(Productos $id)
     {
@@ -63,4 +60,7 @@ class ProductosController extends Controller
         // Redirigir o retornar mensaje
         return redirect()->route('productos')->with('success', 'Producto eliminado exitosamente');
     }
+
+
+
 }

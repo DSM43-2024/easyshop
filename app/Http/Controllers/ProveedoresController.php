@@ -41,7 +41,20 @@ class ProveedoresController extends Controller
         fclose($output);
         exit();
     }
+    // En ProveedorController.php
+public function buscar(Request $request)
+{
+    $buscar = $request->get('buscar');
     
+    // Buscar proveedores por nombre o email
+    $proveedores = Proveedores::where('nombre', 'like', "%$buscar%")
+                            ->orWhere('email', 'like', "%$buscar%")
+                            ->paginate(10); // Paginación de resultados
+
+    // Retornar la vista con los proveedores filtrados
+    return view('proveedores', compact('proveedores'));
+}
+
 
     public function proveedor_registrar(Request $request){
         $this->validate($request, [

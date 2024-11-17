@@ -88,4 +88,16 @@ class PersonalController extends Controller
         $id->delete();
         return redirect()->route('personal');
     }
+   
+public function buscar(Request $request)
+{
+    $buscar = $request->get('buscar');
+    
+    $personal = Personal::where('nombre', 'like', "%$buscar%")
+                            ->orWhere('tipo', 'like', "%$buscar%")
+                            ->paginate(10); // Paginación de resultados
+
+    return view('personal', compact('personal'));
+}
+ 
 }

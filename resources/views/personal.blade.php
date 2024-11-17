@@ -50,6 +50,10 @@
         </nav>
         <br><br>
         <h3>Lista de personal</h3>
+        <form method="GET" action="{{ route('personal.buscar') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar personal" value="{{ request()->get('buscar') }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
         <hr>
         <p style="text-align: right;">
             <a href="{{ route('personal_alta') }}">

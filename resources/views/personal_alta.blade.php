@@ -8,32 +8,53 @@
 <body>
     
     <div class="container">
-        <h3>Nuevo registro de personal</h3>
-        <h5>Crud:personal->Registro</h5>
+        <h1>Nuevo registro de personal</h1>
+        <h5>CRUD: Personal -> Registro</h5>
         <hr>
         <br>
-        <form action="{{route('personal_registrar')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('personal_registrar') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <h3>Datos</h3>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="tipo" value="{{ old('tipo') }}" id="floatingtipo" placeholder="ejemplo=Admin" aria-describedby="tipoHelp">
-                <label for="floatingtipo">tipo</label>
-                <div id="tipoHelp" class="form-text">@if($errors->first('tipo'))<i>El campo tipo no es correcto</i>@endif</div>
-            </div>
 
+            <!-- Campo Nombre -->
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="activo" value="{{ old('activo') }}" id="floatingactivo" placeholder="" aria-describedby="activoHelp">
-                <label for="floatingactivo">activo</label>
-                <div id="activoHelp" class="form-text">@if($errors->first('activo'))<i>El campo activo no es correcto</i>@endif</div>
+                <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" id="floatingNombre" placeholder="ejemplo: Juan Pérez" aria-describedby="nombreHelp">
+                <label for="floatingNombre">Nombre</label>
+                <div id="nombreHelp" class="form-text">
+                    @if ($errors->first('nombre'))
+                        <i>El campo nombre no es correcto</i>
+                    @endif
+                </div>
             </div>
-
             
+            <!-- Campo Tipo -->
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="tipo" value="{{ old('tipo') }}" id="floatingTipo" placeholder="ejemplo: Admin" aria-describedby="tipoHelp">
+                <label for="floatingTipo">Tipo</label>
+                <div id="tipoHelp" class="form-text">
+                    @if ($errors->first('tipo'))
+                        <i>El campo tipo no es correcto</i>
+                    @endif
+                </div>
+            </div>
 
-            <hr><hr>
+            <!-- Campo Activo -->
+            <div class="form-group">
+                <label for="activo">Activo</label>
+                <select class="form-control" id="activo" name="activo">
+                    <option value="1" {{ old('activo') == '1' ? 'selected' : '' }}>Sí</option>
+                    <option value="0" {{ old('activo') == '0' ? 'selected' : '' }}>No</option>
+                </select>
+                <div id="activoHelp" class="form-text">
+                    @if ($errors->first('activo'))
+                        <i>El campo activo no es correcto</i>
+                    @endif
+                </div>
+            </div>
+
+            <hr>
             <button type="submit" class="btn btn-danger">Guardar</button>
-            <a href="{{route('personal')}}">
-                <button type="button" class="btn btn-info">Cancelar</button>
-            </a>
+            <a href="{{ route('personal') }}" class="btn btn-info">Cancelar</a>
         </form>
     </div>
 </body>

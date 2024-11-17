@@ -91,3 +91,10 @@ Route::get('/proveedores/exportar-csv', [ProveedoresController::class, 'exportar
 Route::get('/ubicacion/exportar-csv', [Ubicacion::class, 'exportarCSV'])->name('ubicacion.exportarCSV');
 Route::get('/personal/exportar-csv', [PersonalController::class, 'exportarCSV'])->name('personal.exportarCSV');
 
+// Ruta para buscar proveedores
+Route::get('/proveedores/buscar', action: [ProveedoresController::class, 'buscar'])->name('proveedores.buscar');
+Route::get('/ubicacion/buscar', [UbicacionController::class, 'buscarUbicacion'])->name('ubicacion.buscar');
+Route::get('/personal/buscar', action: [PersonalController::class, 'buscar'])->name('personal.buscar');
+Route::get('/descuentos/buscar', action: [DescuentosController::class, 'buscar'])->name('descuentos.buscar');
+Route::get('/categorias/buscar', action: [CategoriasController::class, 'buscar'])->name('categorias.buscar');
+

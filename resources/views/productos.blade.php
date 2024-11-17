@@ -81,6 +81,7 @@
         <br><br><br>
 
         <h3>Productos</h3>
+
         <hr><br>
         <form action="{{ route('producto_registrar') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -145,6 +146,7 @@
         <br><br><br>
 
         <h1>Lista de productos</h1>
+        
         <br>
         <hr>
         <table class="table">

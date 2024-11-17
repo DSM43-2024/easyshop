@@ -51,6 +51,10 @@
         <br><br>
         <h3>Lista de categorias  </h3>
         <h5>CRUD:Categoria</h5>
+        <form method="GET" action="{{ route('categorias.buscar') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar categoria" value="{{ request()->get('buscar') }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
         <hr>
         <p style="text-align: right;">
             <a href="{{route('categoria_alta')}}">
