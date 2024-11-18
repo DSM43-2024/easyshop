@@ -40,6 +40,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
                     </li>
+                    <li class="nav-item">
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
+    </form>
+</li>
+
                 </ul>
             </div>
         </nav>
@@ -51,6 +58,7 @@
                 <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar proveedor" value="{{ request()->get('buscar') }}">
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
+            
         </div>
 
         <h5>CRUD: Proveedor</h5>

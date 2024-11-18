@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('tipo')->default('usuario'); // Agregar el campo tipo con valor predeterminado 'usuario'
+            $table->string('tipo')->default('vendedor'); // Ejemplo para establecer 'vendedor' como predeterminado
             $table->rememberToken();
             $table->timestamps();
         });
