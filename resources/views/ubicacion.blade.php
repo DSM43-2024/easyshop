@@ -96,6 +96,54 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-5">
+    <h5>Distribución de Ubicacion por Estante</h5>
+    <canvas id="graficaUbicacion" width="400" height="200"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ route('ubicacion.datos-grafica') }}")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('graficaUbicacion').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar', 
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Número de Ubicacion',
+                            data: data.data,
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                        }
+                    }
+                });
+            });
+    });
+</script>
         <div class="d-flex justify-content-center">
             {{ $ubicacion->links('pagination::bootstrap-5') }}
         </div>

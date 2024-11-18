@@ -125,3 +125,9 @@ Route::get('register', [LoginController::class, 'showRegistrationForm'])->name('
 
 // Ruta para procesar el registro
 Route::post('register', [LoginController::class, 'register'])->name('register');
+//Ruta para gráficas
+Route::get('/ubicacion/datos-grafica', [UbicacionController::class, 'datosGrafica'])->name('ubicacion.datos-grafica');
+Route::get('/proveedores/datos-grafica', [ProveedoresController::class, 'datosGrafica'])->name('proveedores.datos-grafica');
+Route::get('/personal/datos-grafica', [PersonalController::class, 'datosGrafica'])->name('personal.datos-grafica');
+Route::get('/descuentos/datos-grafica', [DescuentosController::class, 'datosGrafica'])->name('descuentos.datos-grafica');
+Route::get('/categorias/datos-grafica', [CategoriasController::class, 'datosGrafica'])->name('categorias.datos-grafica');

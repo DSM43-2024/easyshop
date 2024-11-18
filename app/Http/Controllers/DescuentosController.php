@@ -17,7 +17,20 @@ class DescuentosController extends Controller
     {
         return view("descuento_alta");
     }
-
+    public function datosGrafica()
+    {
+        $datos = Descuentos::select('nombre', \DB::raw('COUNT(*) as total'))
+            ->groupBy('nombre')
+            ->get();
+    
+        $nombre = $datos->pluck('nombre')->toArray(); 
+        $totales = $datos->pluck('total')->toArray(); 
+    
+        return response()->json([
+            'labels' => $nombre,
+            'data' => $totales,
+        ]);
+    }
     public function exportarCSV()
     {
         $fileName = "descuentos.csv";

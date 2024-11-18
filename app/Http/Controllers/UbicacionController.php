@@ -59,7 +59,20 @@ class UbicacionController extends Controller
         // Retornar la vista con las ubicaciones filtradas
         return view('ubicacion', compact('ubicacion'));
     }
+    public function datosGrafica()
+    {
+        $datos = Ubicacion::select('estante', \DB::raw('COUNT(*) as total'))
+            ->groupBy('estante')
+            ->get();
     
+        $estantes = $datos->pluck('estante')->toArray(); 
+        $totales = $datos->pluck('total')->toArray(); 
+    
+        return response()->json([
+            'labels' => $estantes,
+            'data' => $totales,
+        ]);
+    }
     public function ubicacion_registrar(Request $request)
     {
         $this->validate($request, [

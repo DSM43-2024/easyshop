@@ -9,9 +9,22 @@ class PersonalController extends Controller
 {
     public function personal(){
         return view('personal')
-        ->with(['personal' => Personal::paginate(10)]); // paginate 10 items per page
+        ->with(['personal' => Personal::paginate(10)]); 
     }
-
+    public function datosGrafica()
+    {
+        $datos = Personal::select('tipo', \DB::raw('COUNT(*) as total'))
+            ->groupBy('tipo')
+            ->get();
+    
+        $tipos = $datos->pluck('tipo')->toArray(); 
+        $totales = $datos->pluck('total')->toArray(); 
+    
+        return response()->json([
+            'labels' => $tipos,
+            'data' => $totales,
+        ]);
+    }
     public function personal_alta()  {
         return view("personal_alta");
     }

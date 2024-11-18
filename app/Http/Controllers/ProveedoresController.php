@@ -41,17 +41,28 @@ class ProveedoresController extends Controller
         fclose($output);
         exit();
     }
-    // En ProveedorController.php
+    public function datosGrafica()
+    {
+        $datos = Proveedores::select('email', \DB::raw('COUNT(*) as total'))
+            ->groupBy('email')
+            ->get();
+    
+        $email = $datos->pluck('email')->toArray(); 
+        $totales = $datos->pluck('total')->toArray(); 
+    
+        return response()->json([
+            'labels' => $email,
+            'data' => $totales,
+        ]);
+    }
 public function buscar(Request $request)
 {
     $buscar = $request->get('buscar');
     
-    // Buscar proveedores por nombre o email
     $proveedores = Proveedores::where('nombre', 'like', "%$buscar%")
                             ->orWhere('email', 'like', "%$buscar%")
                             ->paginate(10); // Paginación de resultados
 
-    // Retornar la vista con los proveedores filtrados
     return view('proveedores', compact('proveedores'));
 }
 

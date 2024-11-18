@@ -12,7 +12,21 @@ class CategoriasController extends Controller
             'categorias' => Categorias::paginate(10)
         ]);
     }
-
+    public function datosGrafica()
+    {
+        $datos = Categorias::select('tipo', \DB::raw('COUNT(*) as total'))
+            ->groupBy('tipo')
+            ->get();
+    
+        $tipos = $datos->pluck('tipo')->toArray(); // Tipos de categoría
+        $totales = $datos->pluck('total')->toArray(); // Totales por tipo
+    
+        return response()->json([
+            'labels' => $tipos,
+            'data' => $totales,
+        ]);
+    }
+    
     public function exportarCSV()
     {
         $fileName = "categorias.csv";
@@ -122,4 +136,5 @@ class CategoriasController extends Controller
             'categorias' => $categorias
         ]);
     }
+    
 }
