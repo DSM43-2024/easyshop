@@ -24,7 +24,7 @@ Route::name('categoria_salvar')->put('/categoria_salvar/{id}', [CategoriasContro
 Route::name('categoria_borrar')->get('/categoria_borrar/{id}', [CategoriasController::class, 'categoria_borrar']);
 
 // Rutas para Descuentos
-Route::name('descuentos')->get('/descuentos', [DescuentosController::class, 'descuentos']);
+Route::name('descuentos')->get('/descuentos', [DescuentosController::class, 'descuentos'])->middleware('checkTipo:admin');
 Route::name('descuento_alta')->get('/descuento_alta', [DescuentosController::class, 'descuento_alta']);
 Route::name('descuento_registrar')->post('/descuento_registrar', [DescuentosController::class, 'descuento_registrar']);
 Route::name('descuento_detalle')->get('/descuento_detalle/{id}', [DescuentosController::class, 'descuento_detalle']);
@@ -38,7 +38,7 @@ Route::name('entrada_registrar')->post('/entrada_registrar', [EntradasController
 Route::name('entrada_borrar')->get('/entrada_borrar/{id}', [EntradasController::class, 'entrada_borrar']);
 
 // Rutas para Personal
-Route::name('personal')->get('/personal', [PersonalController::class, 'personal']);
+Route::name('personal')->get('/personal', [PersonalController::class, 'personal'])->middleware('checkTipo:admin');
 Route::name('personal_alta')->get('/personal_alta', [PersonalController::class, 'personal_alta']);
 Route::name('personal_registrar')->post('/personal_registrar', [PersonalController::class, 'personal_registrar']);
 Route::name('personal_detalle')->get('/personal_detalle/{id}', [PersonalController::class, 'personal_detalle']);
@@ -52,7 +52,7 @@ Route::name('producto_registrar')->post('/producto_registrar', [ProductosControl
 Route::name('producto_borrar')->get('/producto_borrar/{id}', [ProductosController::class, 'producto_borrar']);
 
 // Rutas para Proveedores
-Route::name('proveedores')->get('/proveedores', [ProveedoresController::class, 'proveedores']);
+Route::name('proveedores')->get('/proveedores', [ProveedoresController::class, 'proveedores'])->middleware('checkTipo:admin');
 Route::name('proveedor_alta')->get('/proveedor_alta', [ProveedoresController::class, 'proveedor_alta']);
 Route::name('proveedor_registrar')->post('/proveedor_registrar', [ProveedoresController::class, 'proveedor_registrar']);
 Route::name('proveedor_detalle')->get('/proveedor_detalle/{id}', [ProveedoresController::class, 'proveedor_detalle']);
@@ -129,5 +129,7 @@ Route::post('register', [LoginController::class, 'register'])->name('register');
 Route::get('/ubicacion/datos-grafica', [UbicacionController::class, 'datosGrafica'])->name('ubicacion.datos-grafica');
 Route::get('/proveedores/datos-grafica', [ProveedoresController::class, 'datosGrafica'])->name('proveedores.datos-grafica');
 Route::get('/personal/datos-grafica', [PersonalController::class, 'datosGrafica'])->name('personal.datos-grafica');
-Route::get('/descuentos/datos-grafica', [DescuentosController::class, 'datosGrafica'])->name('descuentos.datos-grafica');
+Route::get('/descuentos/grafica', [DescuentosController::class, 'datosGrafica'])->name('descuentos.datosGrafica');
 Route::get('/categorias/datos-grafica', [CategoriasController::class, 'datosGrafica'])->name('categorias.datos-grafica');
+Route::get('/categorias/graficaFechas', [CategoriasController::class, 'graficaFechas'])->name('categorias.graficaFechas');
+Route::get('/personal/datos-grafica-activo', [PersonalController::class, 'datosGraficaActivo'])->name('personal.datos-grafica-activo');

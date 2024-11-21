@@ -7,22 +7,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pN1yT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
 
-    <style>
-        .container {
-            margin-top: 30px;
-        }
-        h3, h5 {
-            color: #4b0082; /* Morado */
-        }
-        .btn-primary {
-            background-color: #28a745 !important; /* Botones verdes */
-            border-color: #28a745 !important;
-        }
-        .btn-danger {
-            background-color: #dc3545 !important;
-            border-color: #dc3545 !important;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/alta.css') }}">
 </head>
 <body>
     <div class="container">
@@ -31,11 +19,9 @@
         <h5>CRUD: Proveedores -> Proveedores</h5>
         <hr><br>
 
-        <!-- Formulario para registro de alumnos -->
         <form action="{{ route('proveedor_registrar') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 
-            <!-- Campo para el nombre del alumno -->
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" id="floatingNombre" placeholder="Ejemplo: Juanito Canasta">
                 <label for="floatingNombre">Nombre del proveedor</label>
@@ -56,15 +42,11 @@
                 </div>
             </div>
 
-
             <hr><br>
 
-            <!-- Botón de guardar -->
-            <button type="submit" class="btn btn-primary">Guardar</button>
-
-            <!-- Botones de cancelar y regresar -->
-            <a href="{{ route('proveedores') }}" class="btn btn-danger">Cancelar</a>
-            <a href="{{ route('proveedores') }}" class="btn btn-danger">Regresar</a>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger">Guardar</button>
+            </div>
         </form>
 
         <br><br><br>

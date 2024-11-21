@@ -1,0 +1,89 @@
+body {
+    background-image: url('es.jpg');
+    font-family: 'Lexend Deca', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    color: #ffffff;
+    text-align: center; /* Centra el texto */
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center; /* Centra el texto dentro de la caja */
+    animation: fadeIn 1s forwards;
+    opacity: 0;
+}
+
+h3 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+h5 {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+b {
+    color: #f5a623; /* Color destacado */
+}
+
+button {
+    background-color: rgba(96, 94, 94, 0.5);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+a {
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+}

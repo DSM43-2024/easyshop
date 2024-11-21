@@ -9,14 +9,10 @@ class CheckTipo
 {
     public function handle(Request $request, Closure $next, $tipo)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            // Comprobamos si el tipo de usuario coincide con el tipo requerido
-            if (($tipo == 'admin' && !$user->isAdmin()) || ($tipo == 'vendedor' && !$user->isVendedor())) {
-                // Redirigir si el usuario no tiene el tipo adecuado
-                return redirect('/');
-            }
+        // Check if user is of the correct type (vendedor, admin, etc.)
+        if ($request->user()->tipo !== $tipo) {
+            // Redirect or handle error
+            return redirect()->back();
         }
 
         return $next($request);

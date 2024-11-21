@@ -22,15 +22,26 @@ class DescuentosController extends Controller
         $datos = Descuentos::select('nombre', \DB::raw('COUNT(*) as total'))
             ->groupBy('nombre')
             ->get();
-    
+        
         $nombre = $datos->pluck('nombre')->toArray(); 
-        $totales = $datos->pluck('total')->toArray(); 
+        $totales = $datos->pluck('total')->toArray();
+    
+        // Agregar una nueva consulta para la gráfica de cantidad
+        $datosCantidad = Descuentos::select(\DB::raw('cantidad, COUNT(*) as total'))
+            ->groupBy('cantidad')
+            ->get();
+    
+        $cantidades = $datosCantidad->pluck('cantidad')->toArray();
+        $totalesCantidad = $datosCantidad->pluck('total')->toArray();
     
         return response()->json([
             'labels' => $nombre,
             'data' => $totales,
+            'labelsCantidad' => $cantidades,
+            'dataCantidad' => $totalesCantidad,
         ]);
     }
+    
     public function exportarCSV()
     {
         $fileName = "descuentos.csv";

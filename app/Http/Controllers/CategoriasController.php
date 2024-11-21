@@ -8,10 +8,14 @@ class CategoriasController extends Controller
 {
     public function categorias()
     {
+        $tipos = Categorias::select('tipo')->distinct()->pluck('tipo')->toArray();
+    
         return view('categorias', [
-            'categorias' => Categorias::paginate(10)
+            'categorias' => Categorias::paginate(10),
+            'tipos' => $tipos, // Pasa los tipos a la vista
         ]);
     }
+    
     public function datosGrafica()
     {
         $datos = Categorias::select('tipo', \DB::raw('COUNT(*) as total'))
@@ -127,14 +131,48 @@ class CategoriasController extends Controller
     public function buscar(Request $request)
     {
         $buscar = $request->get('buscar');
-
-        $categorias = Categorias::where('nombre', 'like', "%$buscar%")
-                                ->orWhere('tipo', 'like', "%$buscar%")
-                                ->paginate(10);
-
+        $tipo = $request->get('tipo');
+        $fechaInicio = $request->get('fecha_inicio');
+        $fechaFin = $request->get('fecha_fin');
+    
+        $query = Categorias::query();
+    
+        if ($buscar) {
+            $query->where('nombre', 'like', "%$buscar%")
+                  ->orWhere('tipo', 'like', "%$buscar%");
+        }
+    
+        if ($tipo) {
+            $query->where('tipo', $tipo);
+        }
+    
+        if ($fechaInicio && $fechaFin) {
+            $query->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+        }
+    
+        $categorias = $query->paginate(10);
+        $tipos = Categorias::select('tipo')->distinct()->pluck('tipo')->toArray();
+    
         return view('categorias', [
-            'categorias' => $categorias
+            'categorias' => $categorias,
+            'tipos' => $tipos, // Pasa los tipos a la vista
         ]);
     }
+    public function graficaFechas()
+{
+    $datos = Categorias::selectRaw('DATE(created_at) as fecha, COUNT(*) as total')
+        ->groupBy('fecha')
+        ->orderBy('fecha')
+        ->get();
+
+    $fechas = $datos->pluck('fecha')->toArray(); // Fechas
+    $totales = $datos->pluck('total')->toArray(); // Totales por fecha
+
+    return response()->json([
+        'labels' => $fechas,
+        'data' => $totales,
+    ]);
+}
+
     
 }

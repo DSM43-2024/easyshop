@@ -1,0 +1,168 @@
+body {
+    background-image: url('es.jpg');
+    font-family: 'Lexend Deca', sans-serif;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *::after, *::before {
+    box-sizing: inherit;
+}
+
+:root {
+    --fuente: 'Lexend Deca', sans-serif;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 95%;
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    overflow: hidden;
+}
+
+.card-header {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.card-body {
+    padding: 30px 40px;
+}
+
+.form-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: beige;
+}
+
+.form-control {
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 10px 16px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: wheat;
+}
+
+button[type="submit"] {
+    background-color: rgba(96, 94, 94, 0.147);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 16px;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.164);
+}
+
+a.btn-link {
+    font-size: 16px;
+    color: rgb(141, 141, 141);
+    text-decoration: none;
+}
+
+a.btn-link:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+h1 {
+    color: rgb(255, 255, 255);
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Nuevos estilos para las gráficas */
+.mt-5 {
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro pero con algo de transparencia */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+canvas {
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro para las gráficas */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para las etiquetas y títulos de las gráficas */
+canvas {
+    color: white;
+}
+
+.chartjs-tooltip {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.chartjs-legend {
+    color: white;
+    font-size: 14px;
+}
+
+/* Modificación para mejorar la visibilidad de las gráficas */
+.bar {
+    background-color: rgba(75, 192, 192, 1) !important;
+}
+
+.line {
+    border-color: rgba(54, 162, 235, 1) !important;
+    background-color: rgba(54, 162, 235, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .mt-5 {
+        padding: 10px;
+    }
+}

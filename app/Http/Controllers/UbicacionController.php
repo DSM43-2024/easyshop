@@ -73,6 +73,21 @@ class UbicacionController extends Controller
             'data' => $totales,
         ]);
     }
+    public function datosGraficaPorPasillo()
+{
+    $datos = Ubicacion::select('pasillo', \DB::raw('COUNT(*) as total'))
+        ->groupBy('pasillo')
+        ->get();
+
+    $pasillos = $datos->pluck('pasillo')->toArray(); // Extraemos los pasillos
+    $totales = $datos->pluck('total')->toArray(); // Extraemos los totales por pasillo
+
+    return response()->json([
+        'labels' => $pasillos,
+        'data' => $totales,
+    ]);
+}
+
     public function ubicacion_registrar(Request $request)
     {
         $this->validate($request, [

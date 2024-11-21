@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -63,7 +67,7 @@
                             </div>
                         </form>
                         <div class="mt-3 text-center">
-                            <a href="{{ route('login.form') }}" class="btn btn-link">Ya tienes una cuenta? Inicia sesión aquí</a>
+                            <a href="{{ route('login.form') }}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión aquí</a>
                         </div>
                     </div>
                 </div>

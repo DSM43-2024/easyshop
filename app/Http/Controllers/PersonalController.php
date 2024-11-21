@@ -112,5 +112,15 @@ public function buscar(Request $request)
 
     return view('personal', compact('personal'));
 }
- 
+public function datosGraficaActivo()
+{
+    $activo = Personal::where('activo', 1)->count();  // Cuenta el personal activo
+    $noActivo = Personal::where('activo', 0)->count();  // Cuenta el personal inactivo
+
+    return response()->json([
+        'labels' => ['Activo', 'No Activo'],
+        'data' => [$activo, $noActivo],
+    ]);
+}
+
 }

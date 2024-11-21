@@ -88,7 +88,7 @@ public function buscar(Request $request)
 
     public function proveedor_editar($id){
         $proveedor = Proveedores::find($id);
-        return view('proveedores_editar')->with(['proveedor' => $proveedor]);
+        return view('proveedor_editar')->with(['proveedor' => $proveedor]);
     }
     public function proveedor_alta()  {
         return view("proveedor_alta");
@@ -104,7 +104,7 @@ public function buscar(Request $request)
         $proveedor->email = $request->input('email');    
         $proveedor->save();
 
-        return redirect()->route("proveedores_editar", ['id' => $id])->with('success', 'Proveedor actualizado exitosamente');
+        return redirect()->route("proveedor_editar", ['id' => $id])->with('success', 'Proveedor actualizado exitosamente');
     }
 
     public function proveedor_borrar($id){

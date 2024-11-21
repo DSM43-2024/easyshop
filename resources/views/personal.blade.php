@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de personal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/form2.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -46,21 +50,20 @@
                         <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
                     </li>
                     <li class="nav-item">
-    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-        @csrf
-        <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
-    </form>
-</li>
-
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </nav>
         <br><br>
         <h3>Lista de personal</h3>
         <form method="GET" action="{{ route('personal.buscar') }}" class="d-flex">
-                <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar personal" value="{{ request()->get('buscar') }}">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-            </form>
+            <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar personal" value="{{ request()->get('buscar') }}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
         <hr>
         <p style="text-align: right;">
             <a href="{{ route('personal_alta') }}">
@@ -99,57 +102,97 @@
             </tr>
             @endforeach
         </table>
-        <div class="mt-5">
-    <h5>Distribución de Personal por Tipo</h5>
-    <canvas id="graficaPersonal" width="400" height="200"></canvas>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch("{{ route('personal.datos-grafica') }}")
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('graficaPersonal').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar', 
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Número de Personal',
-                            data: data.data,
-                            backgroundColor: [
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(153, 102, 255, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(153, 102, 255, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                        }
-                    }
-                });
-            });
-    });
-</script>
         <div class="d-flex justify-content-center">
             {{ $personal->links('pagination::bootstrap-5') }}
         </div>
+
+        <div class="mt-5">
+            <h5>Distribución de Personal por Tipo</h5>
+            <canvas id="graficaPersonal" width="400" height="200"></canvas>
+        </div>
+
+        <div class="mt-5">
+            <h5>Distribución de Personal Activo vs No Activo</h5>
+            <canvas id="graficaActivo" width="400" height="200"></canvas>
+        </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch("{{ route('personal.datos-grafica') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const ctx = document.getElementById('graficaPersonal').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar', 
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Número de Personal',
+                                data: data.data,
+                                backgroundColor: [
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(153, 102, 255, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                            }
+                        }
+                    });
+                });
+
+            fetch("{{ route('personal.datos-grafica-activo') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const ctxActivo = document.getElementById('graficaActivo').getContext('2d');
+                    new Chart(ctxActivo, {
+                        type: 'bar', 
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Estado del Personal',
+                                data: data.data,
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 99, 132, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 99, 132, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
 </body>
 </html>
