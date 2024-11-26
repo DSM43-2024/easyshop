@@ -17,53 +17,49 @@
 
 <body>
     <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('entradas') }}">Entradas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('productos') }}">Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
-                    </li>
-                    <li class="nav-item">
-    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-        @csrf
-        <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
-    </form>
-</li>
+ <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <!-- Opciones comunes -->
+            <li class="nav-item"><a class="nav-link" href="{{ route('ventas') }}">Ventas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('personal') }}">Personal</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('entradas') }}">Entradas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('categorias') }}">Categorias</a></li>
 
-                </ul>
-            </div>
-        </nav>
+
+            <!-- Opciones específicas para administradores -->
+            @if (Auth::user()->tipo === 'admin')
+                <li class="nav-item"><a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="{{ route('vp') }}">Ventas-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Panel Admin</a></li>
+            @endif
+
+            <!-- Opciones específicas para vendedores -->
+            @if (Auth::user()->tipo === 'vendedor')
+                <li class="nav-item"><a class="nav-link" href="{{ route('vendedor.dashboard') }}">Panel Vendedor</a></li>
+            @endif
+
+            <!-- Cerrar sesión -->
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 
         <br><br><br>
         <h3>Proveedores - Productos</h3>
@@ -121,12 +117,40 @@
    onclick="return confirm('¿Seguro que deseas eliminar el registro?')">
     <button type="button" class="btn btn-danger btn-sm">Borrar</button>
 </a>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                 </td>
             </tr>
         @endforeach
     </tbody>
-</table>
+</table><h3>Gráfico de Productos por Proveedor</h3>
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico: barra
+        data: {
+            labels: @json($labels), // Etiquetas de los proveedores
+            datasets: [{
+                label: 'Cantidad de Productos',
+                data: @json($counts), // Datos de la cantidad de productos
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
 
         <br><br><br>
     </div>

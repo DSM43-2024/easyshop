@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Productos;
@@ -14,14 +13,18 @@ class ProveedoresProductosController extends Controller
         $proveedores = Proveedores::with('productos')->get();
         $productos = Productos::all();
         $pp = Proveedores_Productos::with(['proveedor', 'producto'])->get(); // Cargar relaciones
-    
+
+        // Llamar a la función para obtener los datos del gráfico
+        $chartData = $this->getChartData($proveedores);
+
         return view('pp')->with([
             'proveedores' => $proveedores,
             'productos' => $productos,
             'pp' => $pp,
+            'labels' => $chartData['labels'],
+            'counts' => $chartData['counts'],
         ]);
     }
-    
 
     public function pp_registrar(Request $request)
     {
@@ -42,5 +45,26 @@ class ProveedoresProductosController extends Controller
     {
         $id->delete();
         return redirect()->route('pp')->with('success', 'Eliminado exitosamente');
+    }
+
+    // Función separada para generar los datos del gráfico
+    private function getChartData($proveedores)
+    {
+        // Obtener los datos para la gráfica
+        $proveedores_data = $proveedores->map(function($proveedor) {
+            return [
+                'label' => $proveedor->nombre,
+                'count' => $proveedor->productos->count(),
+            ];
+        });
+
+        // Preparar los datos para el gráfico
+        $labels = $proveedores_data->pluck('label')->toArray();
+        $counts = $proveedores_data->pluck('count')->toArray();
+
+        return [
+            'labels' => $labels,
+            'counts' => $counts,
+        ];
     }
 }

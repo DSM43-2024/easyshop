@@ -18,6 +18,7 @@
                 <p><b>Email:</b> {{ $proveedor->email }}</p>
                 <p><b>Fecha de Creación:</b> {{ $proveedor->created_at }}</p>
                 <p><b>Fecha de Actualización:</b> {{ $proveedor->updated_at }}</p>
+                <p><b>Activo:</b> {{ $proveedor->activo ? 'Sí' : 'No' }}</p> <!-- Campo 'activo' añadido -->
                 <a href="{{ route('proveedores') }}">
                     <button type="button">Regresar</button>
                 </a>

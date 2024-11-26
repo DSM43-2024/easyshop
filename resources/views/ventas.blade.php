@@ -12,53 +12,48 @@
 </head>
 <body>
     <div class="container mt-4">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categorias') }}">Categorías</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('entradas') }}">Entradas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('productos') }}">Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('personal') }}">Personal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ventas') }}">Ventas</a>
-                    </li>
-                    <li class="nav-item">
-    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-        @csrf
-        <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
-    </form>
-</li>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <!-- Opciones comunes -->
+            <li class="nav-item"><a class="nav-link" href="{{ route('ventas') }}">Ventas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('personal') }}">Personal</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('entradas') }}">Entradas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('categorias') }}">Categorias</a></li>
 
-                </ul>
-            </div>
-        </nav>
+
+            <!-- Opciones específicas para administradores -->
+            @if (Auth::user()->tipo === 'admin')
+                <li class="nav-item"><a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('vp') }}">Ventas-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Panel Admin</a></li>
+            @endif
+
+            <!-- Opciones específicas para vendedores -->
+            @if (Auth::user()->tipo === 'vendedor')
+                <li class="nav-item"><a class="nav-link" href="{{ route('vendedor.dashboard') }}">Panel Vendedor</a></li>
+            @endif
+
+            <!-- Cerrar sesión -->
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
         <h3>Registro de Venta</h3>
         <form action="{{ route('venta_registrar') }}" method="POST" enctype="multipart/form-data">
             @csrf

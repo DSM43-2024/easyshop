@@ -133,3 +133,7 @@ Route::get('/descuentos/grafica', [DescuentosController::class, 'datosGrafica'])
 Route::get('/categorias/datos-grafica', [CategoriasController::class, 'datosGrafica'])->name('categorias.datos-grafica');
 Route::get('/categorias/graficaFechas', [CategoriasController::class, 'graficaFechas'])->name('categorias.graficaFechas');
 Route::get('/personal/datos-grafica-activo', [PersonalController::class, 'datosGraficaActivo'])->name('personal.datos-grafica-activo');
+Route::get('/proveedor/toggleActivo/{id}', [ProveedoresController::class, 'toggleActivo'])->name('proveedor.toggleActivo');
+Route::get('/proveedores/dominio', [ProveedoresController::class, 'obtenerDatosPorDominio'])->name('proveedores.obtenerDatosPorDominio');
+Route::get('/grafica-linea', [CategoriasController::class, 'graficaLinea'])->name('categorias.graficaLinea');
+Route::get('/grafico', [ProveedoresProductosController::class, 'getChartData'])->name('grafico');

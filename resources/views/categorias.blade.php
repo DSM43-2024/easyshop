@@ -13,30 +13,49 @@
 <body>
     <div class="container">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('personal') }}">Personal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('entradas') }}">Entradas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('ventas') }}">Ventas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a></li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ route('index') }}">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <!-- Opciones comunes -->
+            <li class="nav-item"><a class="nav-link" href="{{ route('ventas') }}">Ventas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('personal') }}">Personal</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('descuentos') }}">Descuentos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('entradas') }}">Entradas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('ubicacion') }}">Ubicación</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('categorias') }}">Categorias</a></li>
+
+            <!-- Opciones específicas para administradores -->
+            @if (Auth::user()->tipo === 'admin')
+                <li class="nav-item"><a class="nav-link" href="{{ route('pp') }}">Proveedores-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('proveedores') }}">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('vp') }}">Ventas-Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Panel Admin</a></li>
+            @endif
+
+            <!-- Opciones específicas para vendedores -->
+            @if (Auth::user()->tipo === 'vendedor')
+                <li class="nav-item"><a class="nav-link" href="{{ route('vendedor.dashboard') }}">Panel Vendedor</a></li>
+            @endif
+
+            <!-- Cerrar sesión -->
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">Cerrar sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
 
         <br><br>
 
@@ -45,9 +64,10 @@
 
         <!-- Filtro de Categorías -->
         <form method="GET" action="{{ route('categorias.buscar') }}" class="d-flex mb-4">
-            <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar categoría" value="{{ request()->get('buscar') }}">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
+    <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar categoría" value="{{ request()->get('buscar') }}">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
 
         <hr>
 
@@ -65,6 +85,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Nombre</th>
                     <th>Tipo</th>
                     <th>Acciones</th>
@@ -107,68 +128,90 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Gráfica de Categorías por Tipo
-                fetch("{{ route('categorias.datos-grafica') }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        const ctx = document.getElementById('graficaCategorias').getContext('2d');
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: data.labels,
-                                datasets: [{
-                                    label: 'Número de Categorías',
-                                    data: data.data,
-                                    backgroundColor: [
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(153, 102, 255, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gráfica de Categorías por Tipo
+        fetch("{{ route('categorias.datos-grafica') }}")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('graficaCategorias').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Número de Categorías',
+                            data: data.data,
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
                             },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'top',
-                                    },
+                        }
+                    }
+                });
+            });
+
+        // Gráfica de Categorías por Fecha - Cambiada a gráfica de línea
+        fetch("{{ route('categorias.graficaLinea') }}")
+            .then(response => response.json())
+            .then(data => {
+                const ctxFechas = document.getElementById('graficaFechas').getContext('2d');
+                new Chart(ctxFechas, {
+                    type: 'line', // Cambiado de 'scatter' a 'line'
+                    data: {
+                        labels: data.labels, // Fechas
+                        datasets: [{
+                            label: 'Categorías creadas',
+                            data: data.data, // Totales por fecha
+                            borderColor: '#36A2EB',
+                            backgroundColor: 'rgba(54,162,235,0.2)',
+                            fill: false,
+                            tension: 0.4 // Para dar suavidad a la curva
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                type: 'category', // Cambio de escala para fechas
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'Fecha'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Número de Categorías'
                                 }
                             }
-                        });
-                    });
-
-                // Gráfica de Categorías por Fecha
-                fetch("{{ route('categorias.graficaFechas') }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        const ctxFechas = document.getElementById('graficaFechas').getContext('2d');
-                        new Chart(ctxFechas, {
-                            type: 'line',
-                            data: {
-                                labels: data.labels,
-                                datasets: [{
-                                    label: 'Categorías creadas',
-                                    data: data.data,
-                                    borderColor: '#36A2EB',
-                                    backgroundColor: 'rgba(54,162,235,0.2)',
-                                    fill: true
-                                }]
-                            }
-                        });
-                    });
+                        }
+                    }
+                });
             });
-        </script>
+    });
+</script>
+
     </div>
 </body>
 </html>

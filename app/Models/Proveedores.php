@@ -12,7 +12,8 @@ class Proveedores extends Model
     protected $primaryKey='id_proveedor';
     protected $fillable=[
         'nombre',
-        'email'
+        'email',
+        'activo'
     ];
     public function productos()
     {

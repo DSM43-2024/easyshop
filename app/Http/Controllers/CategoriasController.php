@@ -17,46 +17,68 @@ class CategoriasController extends Controller
     }
     
     public function datosGrafica()
-    {
-        $datos = Categorias::select('tipo', \DB::raw('COUNT(*) as total'))
-            ->groupBy('tipo')
-            ->get();
+{
+    // Obtener los datos de las categorías
+    $datos = Categorias::select('tipo', \DB::raw('COUNT(*) as total'))
+        ->groupBy('tipo')
+        ->get();
     
-        $tipos = $datos->pluck('tipo')->toArray(); // Tipos de categoría
-        $totales = $datos->pluck('total')->toArray(); // Totales por tipo
+    // Planteamos los datos para gráfico de dispersión
+    $scatterData = $datos->map(function ($item) {
+        return [
+            'x' => $item->tipo, // En este caso, 'tipo' es el valor en el eje X
+            'y' => $item->total, // 'total' es el valor en el eje Y
+        ];
+    });
+
+    // Devolver los datos para la gráfica
+    return response()->json([
+        'data' => $scatterData,
+    ]);
+}
+
     
-        return response()->json([
-            'labels' => $tipos,
-            'data' => $totales,
+public function exportarCSV(Request $request)
+{
+    // Obtener los filtros de búsqueda
+    $buscar = $request->get('buscar');
+    $categoriasQuery = Categorias::query();
+
+    // Si hay filtro de búsqueda, aplicarlo
+    if ($buscar) {
+        $categoriasQuery->where('nombre', 'like', "%$buscar%")
+                        ->orWhere('tipo', 'like', "%$buscar%");
+    }
+
+    // Obtener todas las categorías (sin paginación) que coinciden con los filtros
+    $categorias = $categoriasQuery->get();
+
+    $fileName = "categorias.csv";
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+    $output = fopen('php://output', 'w');
+
+    // Encabezados
+    fputcsv($output, ['ID', 'Nombre', 'Tipo', 'Fecha de Creación', 'Última Actualización']);
+
+    // Datos de la base
+    foreach ($categorias as $categoria) {
+        fputcsv($output, [
+            $categoria->id_categoria,
+            $categoria->nombre,
+            $categoria->tipo,
+            $categoria->created_at,
+            $categoria->updated_at
         ]);
     }
-    
-    public function exportarCSV()
-    {
-        $fileName = "categorias.csv";
 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    fclose($output);
+    exit();
+}
 
-        $output = fopen('php://output', 'w');
 
-        fputcsv($output, ['ID', 'Nombre', 'Tipo', 'Fecha de Creación', 'Última Actualización']);
-
-        $categorias = Categorias::all();
-
-        foreach ($categorias as $categoria) {
-            fputcsv($output, [
-                $categoria->id_categoria, 
-                $categoria->nombre, 
-                $categoria->tipo, 
-                $categoria->created_at, 
-                $categoria->updated_at
-            ]);
-        }
-
-        fclose($output);
-        exit();
-    }
 
     public function categoria_alta()
     {
@@ -85,6 +107,22 @@ class CategoriasController extends Controller
 
         return view("categoria_detalle", compact('categoria'));
     }
+    public function graficaLinea()
+{
+    $datos = Categorias::selectRaw('DATE(created_at) as fecha, COUNT(*) as total')
+        ->groupBy('fecha')
+        ->orderBy('fecha')
+        ->get();
+
+    $fechas = $datos->pluck('fecha')->toArray(); // Fechas
+    $totales = $datos->pluck('total')->toArray(); // Totales por fecha
+
+    return response()->json([
+        'labels' => $fechas,
+        'data' => $totales,
+    ]);
+}
+
 
     public function categoria_editar($id)
     {
@@ -131,33 +169,19 @@ class CategoriasController extends Controller
     public function buscar(Request $request)
     {
         $buscar = $request->get('buscar');
-        $tipo = $request->get('tipo');
-        $fechaInicio = $request->get('fecha_inicio');
-        $fechaFin = $request->get('fecha_fin');
-    
-        $query = Categorias::query();
+        $categoriasQuery = Categorias::query();
     
         if ($buscar) {
-            $query->where('nombre', 'like', "%$buscar%")
-                  ->orWhere('tipo', 'like', "%$buscar%");
+            $categoriasQuery->where('nombre', 'like', "%$buscar%")
+                            ->orWhere('tipo', 'like', "%$buscar%");
         }
     
-        if ($tipo) {
-            $query->where('tipo', $tipo);
-        }
+        $categorias = $categoriasQuery->paginate(10); // Paginación si es necesario
     
-        if ($fechaInicio && $fechaFin) {
-            $query->whereBetween('created_at', [$fechaInicio, $fechaFin]);
-        }
-    
-        $categorias = $query->paginate(10);
-        $tipos = Categorias::select('tipo')->distinct()->pluck('tipo')->toArray();
-    
-        return view('categorias', [
-            'categorias' => $categorias,
-            'tipos' => $tipos, // Pasa los tipos a la vista
-        ]);
+        return view('categorias', compact('categorias'));
     }
+    
+    
     public function graficaFechas()
 {
     $datos = Categorias::selectRaw('DATE(created_at) as fecha, COUNT(*) as total')

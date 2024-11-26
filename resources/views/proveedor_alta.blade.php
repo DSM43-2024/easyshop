@@ -42,6 +42,20 @@
                 </div>
             </div>
 
+            <!-- Campo Activo añadido -->
+            <div class="form-floating mb-3">
+                <select class="form-control" name="activo" id="floatingActivo">
+                    <option value="1" {{ old('activo') == 1 ? 'selected' : '' }}>Sí</option>
+                    <option value="0" {{ old('activo') == 0 ? 'selected' : '' }}>No</option>
+                </select>
+                <label for="floatingActivo">Activo</label>
+                <div id="ActivoHelp" class="form-text">
+                    @if($errors->first('activo'))
+                        <i>El campo activo no es correcto!!</i>
+                    @endif
+                </div>
+            </div>
+
             <hr><br>
 
             <div class="d-grid gap-2">

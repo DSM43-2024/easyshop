@@ -26,7 +26,7 @@ class DescuentosController extends Controller
         $nombre = $datos->pluck('nombre')->toArray(); 
         $totales = $datos->pluck('total')->toArray();
     
-        // Agregar una nueva consulta para la gráfica de cantidad
+        // Datos para la gráfica de cantidad
         $datosCantidad = Descuentos::select(\DB::raw('cantidad, COUNT(*) as total'))
             ->groupBy('cantidad')
             ->get();
@@ -34,13 +34,26 @@ class DescuentosController extends Controller
         $cantidades = $datosCantidad->pluck('cantidad')->toArray();
         $totalesCantidad = $datosCantidad->pluck('total')->toArray();
     
+        // Datos para la gráfica de pastel de activo/inactivo
+        $datosActivo = Descuentos::select('activo', \DB::raw('COUNT(*) as total'))
+            ->groupBy('activo')
+            ->get();
+    
+        $activoLabels = $datosActivo->pluck('activo')->map(function ($value) {
+            return $value ? 'Activo' : 'Inactivo';
+        })->toArray();
+        $activoData = $datosActivo->pluck('total')->toArray();
+    
         return response()->json([
             'labels' => $nombre,
             'data' => $totales,
             'labelsCantidad' => $cantidades,
             'dataCantidad' => $totalesCantidad,
+            'labelsActivo' => $activoLabels,
+            'dataActivo' => $activoData,
         ]);
     }
+    
     
     public function exportarCSV()
     {
